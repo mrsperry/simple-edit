@@ -1,5 +1,5 @@
 main: "io.github.mrsperry.simpleedit.SimpleEdit"
-name: ${project.name}
+name: "SimpleEdit"
 version: ${project.version}
 api-version: 1.16
 commands:
