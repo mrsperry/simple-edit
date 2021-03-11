@@ -1,6 +1,7 @@
 package io.github.mrsperry.simpleedit.commands;
 
 import com.google.common.collect.Lists;
+import io.github.mrsperry.simpleedit.commands.help.HelpCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,6 +13,9 @@ public final class SimpleEditCommands implements TabExecutor {
     public final boolean onCommand(final CommandSender sender, final Command command, final String line, final String[] args) {
         if (args.length >= 1) {
             switch (args[0]) {
+                case "help":
+                    HelpCommand.onCommand(sender, args);
+                    break;
                 default:
                     SimpleEditCommands.invalidArgument(sender, "<action | help>", args[0]);
                     break;
@@ -26,6 +30,8 @@ public final class SimpleEditCommands implements TabExecutor {
     @Override
     public final List<String> onTabComplete(final CommandSender sender, final Command command, final String line, final String[] args) {
         switch (args[0]) {
+            case "help":
+                return HelpCommand.onTabComplete(args.length);
             default:
                 return Lists.newArrayList("help");
         }
