@@ -1,0 +1,4 @@
+main: "io.github.mrsperry.simpleedit.SimpleEdit"
+name: ${project.name}
+version: ${project.version}
+api-version: 1.16

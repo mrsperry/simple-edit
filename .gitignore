@@ -1,0 +1,9 @@
+# IntelliJ files
+.idea/
+*.iml
+
+# Testing folder
+test/
+
+# Output folder
+target/
