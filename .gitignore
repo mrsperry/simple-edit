@@ -7,3 +7,6 @@ test/
 
 # Output folder
 target/
+
+# Dev server start
+*.sh
