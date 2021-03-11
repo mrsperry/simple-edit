@@ -2,3 +2,8 @@ main: "io.github.mrsperry.simpleedit.SimpleEdit"
 name: ${project.name}
 version: ${project.version}
 api-version: 1.16
+commands:
+  simpleedit:
+    description: "All encompassing command for SimpleEdit"
+    usage: "/simpleedit <action | help>"
+    aliases: ["se"]
