@@ -1,16 +1,20 @@
 package io.github.mrsperry.simpleedit.sessions;
 
+import com.google.common.collect.Lists;
 import io.github.mrsperry.simpleedit.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.function.Predicate;
 
 public final class Selection {
     private Location pos1;
     private Location pos2;
+    private Vector<Integer> start;
+    private Vector<Integer> end;
 
     public final void setPosition(final boolean firstPosition, final Location location) {
         if (firstPosition) {
@@ -18,6 +22,16 @@ public final class Selection {
         } else {
             this.pos2 = location;
         }
+
+        final int x1 = this.pos1.getBlockX();
+        final int x2 = this.pos2.getBlockX();
+        final int y1 = this.pos1.getBlockY();
+        final int y2 = this.pos2.getBlockY();
+        final int z1 = this.pos1.getBlockZ();
+        final int z2 = this.pos2.getBlockZ();
+
+        this.start = new Vector<>(Lists.newArrayList(Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2)));
+        this.end = new Vector<>(Lists.newArrayList(Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2)));
     }
 
     public final ArrayList<Block> getCubeBlocks() {
@@ -45,22 +59,14 @@ public final class Selection {
             return blocks;
         }
 
-        final int startX = Math.min(this.pos1.getBlockX(), this.pos2.getBlockX());
-        final int startY = Math.min(this.pos1.getBlockY(), this.pos2.getBlockY());
-        final int startZ = Math.min(this.pos1.getBlockZ(), this.pos2.getBlockZ());
-
-        final int endX = Math.max(this.pos1.getBlockX(), this.pos2.getBlockX());
-        final int endY = Math.max(this.pos1.getBlockY(), this.pos2.getBlockY());
-        final int endZ = Math.max(this.pos1.getBlockZ(), this.pos2.getBlockZ());
-
         final World world = this.pos1.getWorld();
         if (world == null) {
             return blocks;
         }
 
-        for (int x = startX; x <= endX; x++) {
-            for (int y = startY; y <= endY; y++) {
-                for (int z = startZ; z <= endZ; z++) {
+        for (int x = this.start.get(0); x <= this.end.get(0); x++) {
+            for (int y = this.start.get(1); y <= this.end.get(1); y++) {
+                for (int z = this.start.get(2); z <= this.end.get(2); z++) {
                     blocks.add(world.getBlockAt(x, y, z));
                 }
             }
