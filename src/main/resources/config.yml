@@ -1,0 +1,2 @@
+# The number of blocks that may be affected by any action per tick
+affected-blocks-per-tick: 3000

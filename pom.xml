@@ -11,6 +11,11 @@
             <version>1.16.3-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>io.github.mrsperry.mcutils</groupId>
+            <artifactId>mc-utils</artifactId>
+            <version>1.0.21</version>
+        </dependency>
     </dependencies>
     <build>
         <sourceDirectory>${basedir}/src/main/java/</sourceDirectory>

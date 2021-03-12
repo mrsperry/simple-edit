@@ -3,6 +3,7 @@ package io.github.mrsperry.simpleedit.commands;
 import com.google.common.collect.Lists;
 import io.github.mrsperry.simpleedit.commands.help.HelpCommand;
 import io.github.mrsperry.simpleedit.commands.selection.PositionCommand;
+import io.github.mrsperry.simpleedit.commands.selection.SetCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -21,6 +22,9 @@ public final class SimpleEditCommands implements TabExecutor {
                 case "pos2":
                     PositionCommand.onCommand(sender, args[0]);
                     break;
+                case "set":
+                    SetCommand.onCommand(sender, args);
+                    break;
                 default:
                     SimpleEditCommands.invalidArgument(sender, "<action | help>", args[0]);
                     break;
@@ -37,6 +41,8 @@ public final class SimpleEditCommands implements TabExecutor {
         switch (args[0]) {
             case "help":
                 return HelpCommand.onTabComplete(args.length);
+            case "set":
+                return SetCommand.onTabComplete(args);
             default:
                 return Lists.newArrayList("help", "pos1", "pos2");
         }
