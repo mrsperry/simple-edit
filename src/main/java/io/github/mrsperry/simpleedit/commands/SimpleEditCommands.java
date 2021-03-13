@@ -10,6 +10,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.util.StringUtil;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public final class SimpleEditCommands implements TabExecutor {
@@ -54,7 +57,7 @@ public final class SimpleEditCommands implements TabExecutor {
             case "replace":
                 return ReplaceCommand.onTabComplete(args);
             default:
-                return Lists.newArrayList("help", "pos1", "pos2", "outline", "set", "replace");
+                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList("help", "pos1", "pos2", "outline", "set", "replace"), new ArrayList<>());
         }
     }
 
