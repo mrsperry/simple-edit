@@ -7,6 +7,7 @@ import org.bukkit.block.Block;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -66,10 +67,6 @@ public final class Selection {
         return this.doDrawOutline;
     }
 
-    public final ArrayList<Block> getCubeBlocks() {
-        return this.getCubeSelection();
-    }
-
     public final ArrayList<Block> getBlocksByPredicate(Predicate<Block> predicate) {
         final ArrayList<Block> results = new ArrayList<>();
         for (final Block block : this.getCubeSelection()) {
@@ -99,37 +96,47 @@ public final class Selection {
         }
 
         final World world = this.world;
-        final int[] start = this.start;
-        final int[] end = this.end;
-
         this.outlineTaskID = new BukkitRunnable() {
             @Override
             public void run() {
-                runSelectionConsumer((int[] coords) -> {
-                    final boolean xEdge = (coords[0] == start[0] || coords[0] == end[0]);
-                    final boolean yEdge = (coords[1] == start[1] || coords[1] == end[1]);
-                    final boolean zEdge = (coords[2] == start[2] || coords[2] == end[2]);
+                for (final Block block : getEdgeSelection()) {
+                    final Location location = block.getLocation().add(0.5, 0.5, 0.5);
 
-                    // Only spawn particles along the edges of the selection cubes
-                    if ((xEdge && yEdge) || (yEdge && zEdge) || (xEdge && zEdge)) {
-                        final Location location = new Location(world, coords[0], coords[1], coords[2]).add(0.5, 0.5, 0.5);
-
-                        if (!world.getBlockAt(location).getType().isSolid()) {
-                            world.spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 1, new Particle.DustOptions(Color.RED, 1));
-                        }
+                    if (!world.getBlockAt(location).getType().isSolid()) {
+                        world.spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 1, new Particle.DustOptions(Color.RED, 1));
                     }
-                });
+                }
             }
         }.runTaskTimer(this.plugin, 0, this.outlineUpdateRate).getTaskId();
     }
 
-    private ArrayList<Block> getCubeSelection() {
-        final ArrayList<Block> blocks = new ArrayList<>();
+    public final List<Block> getCubeSelection() {
+        final List<Block> blocks = new ArrayList<>();
         if (this.checkLocationPrerequisites()) {
             return blocks;
         }
 
         this.runSelectionConsumer((int[] coords) -> blocks.add(this.world.getBlockAt(coords[0], coords[1], coords[2])));
+
+        return blocks;
+    }
+
+    public final List<Block> getEdgeSelection() {
+        final List<Block> blocks = new ArrayList<>();
+        if (this.checkLocationPrerequisites()) {
+            return blocks;
+        }
+
+        this.runSelectionConsumer((final int[] coords) -> {
+            final boolean xEdge = (coords[0] == this.start[0] || coords[0] == this.end[0]);
+            final boolean yEdge = (coords[1] == this.start[1] || coords[1] == this.end[1]);
+            final boolean zEdge = (coords[2] == this.start[2] || coords[2] == this.end[2]);
+
+            // Only add blocks along the edges of the cube
+            if ((xEdge && yEdge) || (yEdge && zEdge) || (xEdge && zEdge)) {
+                blocks.add(this.world.getBlockAt(coords[0], coords[1], coords[2]));
+            }
+        });
 
         return blocks;
     }
