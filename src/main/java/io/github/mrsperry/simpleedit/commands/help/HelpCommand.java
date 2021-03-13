@@ -11,7 +11,8 @@ public final class HelpCommand {
     private static final int linesToDisplay = 5;
     private static final ArrayList<String> pages = new ArrayList<>(Arrays.asList(
             "pos1 - sets the first clipboard position",
-            "pos2 - sets the second clipboard position"
+            "pos2 - sets the second clipboard position",
+            "outline - shows the outline of your selection"
     ));
 
     public static void onCommand(final CommandSender sender, final String[] args) {

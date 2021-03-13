@@ -1,2 +1,4 @@
 # The number of blocks that may be affected by any action per tick
 affected-blocks-per-tick: 3000
+# The number of ticks between the drawing of a selection outline
+outline-update-rate: 10
