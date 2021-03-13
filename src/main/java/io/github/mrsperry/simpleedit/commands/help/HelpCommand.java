@@ -12,7 +12,9 @@ public final class HelpCommand {
     private static final ArrayList<String> pages = new ArrayList<>(Arrays.asList(
             "pos1 - sets the first clipboard position",
             "pos2 - sets the second clipboard position",
-            "outline - shows the outline of your selection"
+            "outline - shows the outline of your selection",
+            "set - replaces all materials with any number of materials",
+            "replace - replaces specific materials with other materials"
     ));
 
     public static void onCommand(final CommandSender sender, final String[] args) {
