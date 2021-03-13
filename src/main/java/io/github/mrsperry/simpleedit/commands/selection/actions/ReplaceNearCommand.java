@@ -1,4 +1,4 @@
-package io.github.mrsperry.simpleedit.commands.selection;
+package io.github.mrsperry.simpleedit.commands.selection.actions;
 
 import com.google.common.collect.Lists;
 import io.github.mrsperry.mcutils.classes.Pair;

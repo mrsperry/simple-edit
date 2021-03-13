@@ -1,4 +1,4 @@
-package io.github.mrsperry.simpleedit.commands.selection;
+package io.github.mrsperry.simpleedit.commands.selection.actions;
 
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.Utils;
@@ -6,7 +6,6 @@ import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import io.github.mrsperry.simpleedit.sessions.actions.SetAction;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
