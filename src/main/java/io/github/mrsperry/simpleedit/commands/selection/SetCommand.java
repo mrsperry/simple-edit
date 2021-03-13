@@ -23,6 +23,11 @@ public final class SetCommand {
             return;
         }
 
+        if (args.length == 1) {
+            SimpleEditCommands.tooFewArguments(sender, SetCommand.usage);
+            return;
+        }
+
         final List<Pair<Material, Integer>> materials = new ArrayList<>();
         for (int index = 1; index < args.length; index++) {
             final Pair<Material, Integer> material = Utils.parseMaterialChance(args[index], args.length);

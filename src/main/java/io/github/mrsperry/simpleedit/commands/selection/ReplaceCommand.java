@@ -24,6 +24,7 @@ public final class ReplaceCommand {
 
         if (args.length < 3) {
             SimpleEditCommands.tooFewArguments(sender, ReplaceCommand.usage);
+            return;
         }
 
         final List<Material> masks = new ArrayList<>();

@@ -25,10 +25,10 @@ public final class SimpleEditCommands implements TabExecutor {
                     break;
                 case "pos1":
                 case "pos2":
-                    PositionCommand.onCommand(sender, args[0]);
+                    PositionCommand.onCommand(sender, args);
                     break;
                 case "outline":
-                    OutlineCommand.onCommand(sender);
+                    OutlineCommand.onCommand(sender, args.length);
                     break;
                 case "set":
                     SetCommand.onCommand(sender, args);

@@ -8,9 +8,16 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public final class OutlineCommand {
-    public static void onCommand(final CommandSender sender) {
+    private static final String usage = "outline";
+
+    public static void onCommand(final CommandSender sender, final int argsLength) {
         if (!(sender instanceof Player)) {
             SimpleEditCommands.mustBePlayer(sender);
+            return;
+        }
+
+        if (argsLength != 1) {
+            SimpleEditCommands.tooManyArguments(sender, OutlineCommand.usage);
             return;
         }
 

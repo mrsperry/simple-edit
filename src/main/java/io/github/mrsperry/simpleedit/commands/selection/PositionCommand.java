@@ -12,17 +12,22 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 public final class PositionCommand {
-    public static void onCommand(final CommandSender sender, final String command) {
+    public static void onCommand(final CommandSender sender, final String[] args) {
         if (!(sender instanceof Player)) {
             SimpleEditCommands.mustBePlayer(sender);
+            return;
+        }
+
+        final boolean isFirstPosition = args[0].equalsIgnoreCase("pos1");
+
+        if (args.length != 1) {
+            SimpleEditCommands.tooManyArguments(sender, isFirstPosition ? "pos1" : "pos2");
             return;
         }
 
         final Player player = (Player) sender;
         final UUID id = player.getUniqueId();
         final Location location = player.getLocation();
-
-        final boolean isFirstPosition = command.equalsIgnoreCase("pos1");
 
         final Session session = SessionManager.getSession(player.getUniqueId());
         final Selection selection = session.getSelection();
