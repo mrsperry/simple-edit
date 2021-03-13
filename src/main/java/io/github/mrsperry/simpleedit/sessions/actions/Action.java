@@ -1,5 +1,6 @@
 package io.github.mrsperry.simpleedit.sessions.actions;
 
+import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.SimpleEdit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -17,8 +18,8 @@ public class Action {
     private List<Material> masks;
     private Consumer<Block> action;
 
-    protected void run(final ArrayList<Block> blocks, final Consumer<Block> action) {
-        this.run(blocks, null, action);
+    protected void run(final List<Block> blocks, final Consumer<Block> action) {
+        this.run(blocks, new ArrayList<>(), action);
     }
 
     protected void run(final List<Block> blocks, final List<Material> masks, final Consumer<Block> action) {
@@ -27,6 +28,17 @@ public class Action {
         this.action = action;
 
         this.runNewTask(0);
+    }
+
+    protected List<Material> getMaterialWeights(final List<Pair<Material, Integer>> materials) {
+        final List<Material> weights = new ArrayList<>();
+        for (final Pair<Material, Integer> weight : materials) {
+            for (int index = 0; index < weight.getValue(); index++) {
+                weights.add(weight.getKey());
+            }
+        }
+
+        return weights;
     }
 
     private void runNewTask(final int counter) {
@@ -38,11 +50,11 @@ public class Action {
             @Override
             public final void run() {
                 int blocksAffected = 0;
-                final boolean checkMask = masks != null;
+                final boolean noMask = masks.size() == 0;
 
                 for (int index = counter; index < blocks.size(); index++) {
                     final Block block = blocks.get(index);
-                    if (checkMask && masks.contains(block.getType())) {
+                    if (noMask || masks.contains(block.getType())) {
                         action.accept(blocks.get(index));
                     }
 
