@@ -2,6 +2,7 @@ package io.github.mrsperry.simpleedit;
 
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -63,5 +64,19 @@ public final class Utils {
         }
 
         return StringUtil.copyPartialMatches(arg, Utils.getMaterialStrings(), new ArrayList<>());
+    }
+
+    public static Location parseLocation(final String string) {
+        final String[] args = string.split(",");
+
+        try {
+            return new Location(
+                    Bukkit.getWorld(args[0]),
+                    Integer.parseInt(args[1]),
+                    Integer.parseInt(args[2]),
+                    Integer.parseInt(args[3]));
+        } catch (final Exception ex) {
+            return null;
+        }
     }
 }

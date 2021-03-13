@@ -23,7 +23,7 @@ public final class OutlineCommand {
 
         final Player player = (Player) sender;
         final Session session = SessionManager.getSession(player.getUniqueId());
-        final boolean enabled = session.getSelection().toggleDrawOutline();
+        final boolean enabled = session.getSelection().getOutline().toggle();
 
         player.sendMessage(ChatColor.GRAY + "Selection outline " + (enabled ? ChatColor.GREEN + "enabled" : ChatColor.RED + "disabled"));
     }

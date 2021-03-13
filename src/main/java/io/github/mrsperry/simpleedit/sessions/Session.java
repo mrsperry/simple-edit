@@ -1,5 +1,7 @@
 package io.github.mrsperry.simpleedit.sessions;
 
+import io.github.mrsperry.simpleedit.sessions.selections.Selection;
+
 public final class Session {
     private Selection selection;
 

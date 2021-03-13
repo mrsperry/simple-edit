@@ -1,7 +1,7 @@
 package io.github.mrsperry.simpleedit.sessions.actions;
 
 import io.github.mrsperry.mcutils.classes.Pair;
-import io.github.mrsperry.simpleedit.sessions.Selection;
+import io.github.mrsperry.simpleedit.sessions.selections.Selection;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import java.util.List;
@@ -19,6 +19,6 @@ public final class SetAction extends Action {
     }
 
     public static void run(final Selection selection, final List<Pair<Material, Integer>> materials) {
-        new SetAction(selection.getCubeBlocks(), materials);
+        new SetAction(selection.getEdgeSelection(), materials);
     }
 }
