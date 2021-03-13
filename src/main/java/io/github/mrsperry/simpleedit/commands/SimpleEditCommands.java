@@ -2,10 +2,7 @@ package io.github.mrsperry.simpleedit.commands;
 
 import com.google.common.collect.Lists;
 import io.github.mrsperry.simpleedit.commands.help.HelpCommand;
-import io.github.mrsperry.simpleedit.commands.selection.OutlineCommand;
-import io.github.mrsperry.simpleedit.commands.selection.PositionCommand;
-import io.github.mrsperry.simpleedit.commands.selection.ReplaceCommand;
-import io.github.mrsperry.simpleedit.commands.selection.SetCommand;
+import io.github.mrsperry.simpleedit.commands.selection.*;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -36,6 +33,9 @@ public final class SimpleEditCommands implements TabExecutor {
                 case "replace":
                     ReplaceCommand.onCommand(sender, args);
                     break;
+                case "replacenear":
+                    ReplaceNearCommand.onCommand(sender, args);
+                    break;
                 default:
                     SimpleEditCommands.invalidArgument(sender, "<action | help>", args[0]);
                     break;
@@ -56,8 +56,10 @@ public final class SimpleEditCommands implements TabExecutor {
                 return SetCommand.onTabComplete(args);
             case "replace":
                 return ReplaceCommand.onTabComplete(args);
+            case "replacenear":
+                return ReplaceNearCommand.onTabComplete(args);
             default:
-                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList("help", "pos1", "pos2", "outline", "set", "replace"), new ArrayList<>());
+                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList("help", "pos1", "pos2", "outline", "set", "replace", "replacenear"), new ArrayList<>());
         }
     }
 

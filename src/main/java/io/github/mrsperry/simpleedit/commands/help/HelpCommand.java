@@ -14,7 +14,8 @@ public final class HelpCommand {
             "pos2 - sets the second clipboard position",
             "outline - shows the outline of your selection",
             "set - replaces all materials with any number of materials",
-            "replace - replaces specific materials with other materials"
+            "replace - replaces specific materials with other materials",
+            "replacenear - replaces specific materials around you (not your selection) with other materials"
     ));
 
     public static void onCommand(final CommandSender sender, final String[] args) {
