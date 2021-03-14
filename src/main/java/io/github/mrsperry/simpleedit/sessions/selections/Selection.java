@@ -1,11 +1,14 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
+import io.github.mrsperry.mcutils.classes.Tuple;
 import io.github.mrsperry.simpleedit.SimpleEdit;
 import io.github.mrsperry.simpleedit.Utils;
 import org.bukkit.block.Block;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 public final class Selection {
     private final SelectionPosition position;
@@ -27,7 +30,11 @@ public final class Selection {
         return blocks;
     }
 
-    public final List<Block> getEdgeSelection() {
+    public final List<Block> getFaceSelection() {
+        return this.getFaceSelection(null);
+    }
+
+    public final List<Block> getFaceSelection(final Predicate<Tuple<Boolean, Boolean, Boolean>> predicate) {
         final List<Block> blocks = new ArrayList<>();
         if (this.position.checkLocationPrerequisites()) {
             return blocks;
@@ -37,17 +44,30 @@ public final class Selection {
         final int[] end = this.position.getEnd();
 
         this.runSelectionConsumer((final int[] coords) -> {
-            final boolean xEdge = (coords[0] == start[0] || coords[0] == end[0]);
-            final boolean yEdge = (coords[1] == start[1] || coords[1] == end[1]);
-            final boolean zEdge = (coords[2] == start[2] || coords[2] == end[2]);
+            final boolean xFace = (coords[0] == start[0] || coords[0] == end[0]);
+            final boolean yFace = (coords[1] == start[1] || coords[1] == end[1]);
+            final boolean zFace = (coords[2] == start[2] || coords[2] == end[2]);
 
-            // Only add blocks along the edges of the cube
-            if ((xEdge && yEdge) || (yEdge && zEdge) || (xEdge && zEdge)) {
-                blocks.add(this.position.getWorld().getBlockAt(coords[0], coords[1], coords[2]));
+            if (xFace || yFace || zFace) {
+                final Tuple<Boolean, Boolean, Boolean> faces = new Tuple<>(xFace, yFace, zFace);
+
+                if (predicate == null || predicate.test(faces)) {
+                    blocks.add(this.position.getWorld().getBlockAt(coords[0], coords[1], coords[2]));
+                }
             }
         });
 
         return blocks;
+    }
+
+    public final List<Block> getEdgeSelection() {
+        return this.getFaceSelection((final Tuple<Boolean, Boolean, Boolean> faces) -> {
+            final boolean xFace = faces.getValue1();
+            final boolean yFace = faces.getValue2();
+            final boolean zFace = faces.getValue3();
+
+            return (xFace && yFace) || (yFace && zFace) || (xFace && zFace);
+        });
     }
 
     private void runSelectionConsumer(final Consumer<int[]> consumer) {

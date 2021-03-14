@@ -19,6 +19,6 @@ public final class SetAction extends Action {
     }
 
     public static void run(final Selection selection, final List<Pair<Material, Integer>> materials) {
-        new SetAction(selection.getEdgeSelection(), materials);
+        new SetAction(selection.getCubeSelection(), materials);
     }
 }
