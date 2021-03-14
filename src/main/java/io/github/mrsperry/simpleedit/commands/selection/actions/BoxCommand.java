@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoxCommand {
+public final class BoxCommand {
     private static final String usage = "box [-h] [chance%]<material> [materials...]";
 
     public static void onCommand(final CommandSender sender, final String[] args) {
