@@ -16,7 +16,8 @@ public final class HelpCommand {
             "set - replaces all materials with any number of materials",
             "replace - replaces specific materials with other materials",
             "replacenear - replaces specific materials around you (not your selection) with other materials",
-            "box - creates an enclosed box (add '-h' for hollow faces) out of the specified materials"
+            "box - creates an enclosed box (add '-h' for hollow faces) out of the specified materials",
+            "walls - creates solid walls out of the specified materials"
     ));
 
     public static void onCommand(final CommandSender sender, final String[] args) {

@@ -60,6 +60,11 @@ public final class Selection {
         return blocks;
     }
 
+    public final List<Block> getWallSelection() {
+        return this.getFaceSelection((final Tuple<Boolean, Boolean, Boolean> faces) ->
+            !faces.getValue2() || (faces.getValue1() || faces.getValue3()));
+    }
+
     public final List<Block> getEdgeSelection() {
         return this.getFaceSelection((final Tuple<Boolean, Boolean, Boolean> faces) -> {
             final boolean xFace = faces.getValue1();
