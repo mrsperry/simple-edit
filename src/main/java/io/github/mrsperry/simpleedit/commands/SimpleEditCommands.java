@@ -70,7 +70,7 @@ public final class SimpleEditCommands implements TabExecutor {
             case "walls":
                 return WallsCommand.onTabComplete(args);
             default:
-                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList("help", "pos1", "pos2", "outline", "set", "replace", "replacenear", "box"), new ArrayList<>());
+                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList("help", "pos1", "pos2", "outline", "set", "replace", "replacenear", "box", "walls"), new ArrayList<>());
         }
     }
 
