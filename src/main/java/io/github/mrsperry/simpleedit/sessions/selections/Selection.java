@@ -1,6 +1,5 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
-import io.github.mrsperry.mcutils.classes.Tuple;
 import io.github.mrsperry.simpleedit.SimpleEdit;
 import io.github.mrsperry.simpleedit.Utils;
 import org.bukkit.block.Block;
@@ -8,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public final class Selection {
     private final SelectionPosition position;
@@ -34,7 +32,7 @@ public final class Selection {
         return this.getFaceSelection(null);
     }
 
-    public final List<Block> getFaceSelection(final Predicate<Tuple<Boolean, Boolean, Boolean>> predicate) {
+    public final List<Block> getFaceSelection(final Predicate<boolean[]> predicate) {
         final List<Block> blocks = new ArrayList<>();
         if (this.position.checkLocationPrerequisites()) {
             return blocks;
@@ -49,7 +47,7 @@ public final class Selection {
             final boolean zFace = (coords[2] == start[2] || coords[2] == end[2]);
 
             if (xFace || yFace || zFace) {
-                final Tuple<Boolean, Boolean, Boolean> faces = new Tuple<>(xFace, yFace, zFace);
+                final boolean[] faces = new boolean[] { xFace, yFace, zFace };
 
                 if (predicate == null || predicate.test(faces)) {
                     blocks.add(this.position.getWorld().getBlockAt(coords[0], coords[1], coords[2]));
@@ -61,15 +59,14 @@ public final class Selection {
     }
 
     public final List<Block> getWallSelection() {
-        return this.getFaceSelection((final Tuple<Boolean, Boolean, Boolean> faces) ->
-            !faces.getValue2() || (faces.getValue1() || faces.getValue3()));
+        return this.getFaceSelection((final boolean[] faces) -> !faces[1] || (faces[0] || faces[2]));
     }
 
     public final List<Block> getEdgeSelection() {
-        return this.getFaceSelection((final Tuple<Boolean, Boolean, Boolean> faces) -> {
-            final boolean xFace = faces.getValue1();
-            final boolean yFace = faces.getValue2();
-            final boolean zFace = faces.getValue3();
+        return this.getFaceSelection((final boolean[] faces) -> {
+            final boolean xFace = faces[0];
+            final boolean yFace = faces[1];
+            final boolean zFace = faces[2];
 
             return (xFace && yFace) || (yFace && zFace) || (xFace && zFace);
         });
