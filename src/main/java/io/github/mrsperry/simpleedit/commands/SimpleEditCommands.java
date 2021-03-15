@@ -2,6 +2,7 @@ package io.github.mrsperry.simpleedit.commands;
 
 import com.google.common.collect.Lists;
 import io.github.mrsperry.simpleedit.commands.help.HelpCommand;
+import io.github.mrsperry.simpleedit.commands.items.WandCommand;
 import io.github.mrsperry.simpleedit.commands.selection.*;
 import io.github.mrsperry.simpleedit.commands.selection.actions.*;
 import org.bukkit.ChatColor;
@@ -49,6 +50,9 @@ public final class SimpleEditCommands implements TabExecutor {
                 case "paste":
                     PasteCommand.onCommand(sender, args);
                     break;
+                case "wand":
+                    WandCommand.onCommand(sender, args.length);
+                    break;
                 default:
                     SimpleEditCommands.invalidArgument(sender, "<action | help>", args[0]);
                     break;
@@ -76,7 +80,20 @@ public final class SimpleEditCommands implements TabExecutor {
             case "walls":
                 return WallsCommand.onTabComplete(args);
             default:
-                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList("help", "pos1", "pos2", "outline", "set", "replace", "replacenear", "box", "walls", "copy", "paste"), new ArrayList<>());
+                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList(
+                        "help",
+                        "pos1",
+                        "pos2",
+                        "outline",
+                        "set",
+                        "replace",
+                        "replacenear",
+                        "box",
+                        "walls",
+                        "copy",
+                        "paste",
+                        "wand"
+                    ), new ArrayList<>());
         }
     }
 

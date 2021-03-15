@@ -19,7 +19,8 @@ public final class HelpCommand {
             "box - creates an enclosed box (add '-h' for hollow faces) out of the specified materials",
             "walls - creates solid walls out of the specified materials",
             "copy - copies the current selection to be pasted elsewhere",
-            "paste - pastes the copied selection relative to your position"
+            "paste - pastes the copied selection relative to your position",
+            "wand - gives you a wand item that can be used to set positions"
     ));
 
     public static void onCommand(final CommandSender sender, final String[] args) {

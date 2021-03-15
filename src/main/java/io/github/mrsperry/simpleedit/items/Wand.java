@@ -19,18 +19,18 @@ import org.bukkit.inventory.EquipmentSlot;
 import java.util.logging.Logger;
 
 public final class Wand implements Listener {
-    private Material wandMaterial;
+    private static Material wandMaterial;
     private final boolean creativeOnly;
 
     public Wand(final SimpleEdit plugin) {
         final FileConfiguration config = plugin.getConfig();
         final Logger logger = plugin.getLogger();
 
-        this.wandMaterial = Material.WOODEN_AXE;
+        Wand.wandMaterial = Material.WOODEN_AXE;
         final String material = config.getString("wand-material", "wood axe");
         try {
             if (material != null) {
-                this.wandMaterial = Material.valueOf(material.toUpperCase().replaceAll(" ", "_"));
+                Wand.wandMaterial = Material.valueOf(material.toUpperCase().replaceAll(" ", "_"));
             }
         } catch (final IllegalArgumentException ex) {
             logger.severe("Could not parse wand material: " + material);
@@ -74,5 +74,9 @@ public final class Wand implements Listener {
         player.sendMessage(ChatColor.LIGHT_PURPLE + position + " position set to (" + Utils.coordinateString(location) + ")");
 
         event.setCancelled(true);
+    }
+
+    public static Material getWandMaterial() {
+        return Wand.wandMaterial;
     }
 }
