@@ -1,6 +1,7 @@
 package io.github.mrsperry.simpleedit;
 
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
+import io.github.mrsperry.simpleedit.items.Wand;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,6 +21,8 @@ public final class SimpleEdit extends JavaPlugin {
         } else {
             this.getLogger().severe("Could not bind main command!");
         }
+
+        this.getServer().getPluginManager().registerEvents(new Wand(this), this);
 
         SessionManager.initialize(this.getDataFolder());
     }
