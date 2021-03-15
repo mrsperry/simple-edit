@@ -17,7 +17,9 @@ public final class HelpCommand {
             "replace - replaces specific materials with other materials",
             "replacenear - replaces specific materials around you (not your selection) with other materials",
             "box - creates an enclosed box (add '-h' for hollow faces) out of the specified materials",
-            "walls - creates solid walls out of the specified materials"
+            "walls - creates solid walls out of the specified materials",
+            "copy - copies the current selection to be pasted elsewhere",
+            "paste - pastes the copied selection relative to your position"
     ));
 
     public static void onCommand(final CommandSender sender, final String[] args) {

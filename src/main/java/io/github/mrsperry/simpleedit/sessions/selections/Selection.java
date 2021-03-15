@@ -9,10 +9,12 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public final class Selection {
+    private final SelectionClipboard clipboard;
     private final SelectionPosition position;
     private final SelectionOutline outline;
 
     public Selection() {
+        this.clipboard = new SelectionClipboard(this);
         this.position = new SelectionPosition(this);
         this.outline = new SelectionOutline(this, SimpleEdit.getInstance().getConfig().getLong("outline-update-rate", 10));
     }
@@ -24,6 +26,27 @@ public final class Selection {
         }
 
         this.runSelectionConsumer((int[] coords) -> blocks.add(this.position.getWorld().getBlockAt(coords[0], coords[1], coords[2])));
+
+        return blocks;
+    }
+
+    public final Block[][][] getCubeSelectionArray() {
+        final SelectionPosition position = this.getPosition();
+        final int[] start = position.getStart();
+        final int[] end = position.getEnd();
+
+        final int xLength = end[0] - start[0] + 1;
+        final int yLength = end[1] - start[1] + 1;
+        final int zLength = end[2] - start[2] + 1;
+        final Block[][][] blocks = new Block[xLength][yLength][zLength];
+        if (position.checkLocationPrerequisites()) {
+            return blocks;
+        }
+
+        this.runSelectionConsumer((int[] coords) -> {
+           final Block block = position.getWorld().getBlockAt(coords[0], coords[1], coords[2]);
+           blocks[coords[0] - start[0]][coords[1] - start[1]][coords[2] - start[2]] = block;
+        });
 
         return blocks;
     }
@@ -97,6 +120,10 @@ public final class Selection {
         selection.position.setPosition(false, Utils.parseLocation(positions[1]));
 
         return selection;
+    }
+
+    public final SelectionClipboard getClipboard() {
+        return this.clipboard;
     }
 
     public final SelectionPosition getPosition() {

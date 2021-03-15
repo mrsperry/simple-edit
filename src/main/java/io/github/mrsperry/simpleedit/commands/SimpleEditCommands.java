@@ -43,6 +43,12 @@ public final class SimpleEditCommands implements TabExecutor {
                 case "walls":
                     WallsCommand.onCommand(sender, args);
                     break;
+                case "copy":
+                    CopyCommand.onCommand(sender, args.length);
+                    break;
+                case "paste":
+                    PasteCommand.onCommand(sender, args);
+                    break;
                 default:
                     SimpleEditCommands.invalidArgument(sender, "<action | help>", args[0]);
                     break;
@@ -70,7 +76,7 @@ public final class SimpleEditCommands implements TabExecutor {
             case "walls":
                 return WallsCommand.onTabComplete(args);
             default:
-                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList("help", "pos1", "pos2", "outline", "set", "replace", "replacenear", "box", "walls"), new ArrayList<>());
+                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList("help", "pos1", "pos2", "outline", "set", "replace", "replacenear", "box", "walls", "copy", "paste"), new ArrayList<>());
         }
     }
 
