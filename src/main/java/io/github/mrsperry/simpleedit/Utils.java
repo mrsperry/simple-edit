@@ -13,7 +13,7 @@ import java.util.List;
 
 public final class Utils {
     public static String coordinateString(final Location location) {
-        return location.getBlockX() + "," + location.getBlockY() + "," + location.getBlockZ();
+        return location.getBlockX() + ", " + location.getBlockY() + ", " + location.getBlockZ();
     }
 
     public static String locationString(final Location location) {
@@ -22,7 +22,7 @@ public final class Utils {
             return "";
         }
 
-        return world.getName() + "," + Utils.coordinateString(location);
+        return world.getName() + "," + Utils.coordinateString(location).replaceAll(" ", "");
     }
 
     public static Pair<Material, Integer> parseMaterialChance(final String arg, final int argsLength) {
