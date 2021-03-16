@@ -3,6 +3,7 @@ package io.github.mrsperry.simpleedit.commands.selection.actions;
 import com.google.common.collect.Lists;
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.Utils;
+import io.github.mrsperry.simpleedit.commands.ICommandHandler;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.sessions.actions.ReplaceNearAction;
 import org.bukkit.Material;
@@ -12,17 +13,14 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ReplaceNearCommand {
-    private static final String usage = "replacenear <radius> <material[,material...]> [chance%]<material> [materials...]";
+public final class ReplaceNearCommand extends ICommandHandler {
+    public ReplaceNearCommand() {
+        super("replacenear <radius> <material[,material...]> [chance%]<material> [materials...]");
+    }
 
-    public static void onCommand(final CommandSender sender, final String[] args) {
-        if (!(sender instanceof Player)) {
-            SimpleEditCommands.mustBePlayer(sender);
-            return;
-        }
-
-        if (args.length < 4) {
-            SimpleEditCommands.tooFewArguments(sender, ReplaceNearCommand.usage);
+    @Override
+    public final void onCommand(final CommandSender sender, final String[] args) {
+        if (super.commandPrerequisites(sender, args, 3, -1)) {
             return;
         }
 
@@ -30,7 +28,7 @@ public final class ReplaceNearCommand {
         try {
             radius = Integer.parseInt(args[1]);
         } catch (final NumberFormatException ex) {
-            SimpleEditCommands.invalidArgument(sender, ReplaceNearCommand.usage, args[1]);
+            SimpleEditCommands.invalidArgument(sender, super.getUsage(), args[1]);
             return;
         }
 
@@ -39,7 +37,7 @@ public final class ReplaceNearCommand {
             try {
                 masks.add(Material.valueOf(mask.toUpperCase()));
             } catch (final IllegalArgumentException ex) {
-                SimpleEditCommands.invalidArgument(sender, ReplaceNearCommand.usage, args[2]);
+                SimpleEditCommands.invalidArgument(sender, super.getUsage(), args[2]);
                 return;
             }
         }
@@ -48,7 +46,7 @@ public final class ReplaceNearCommand {
         for (int index = 3; index < args.length; index++) {
             final Pair<Material, Integer> material = Utils.parseMaterialChance(args[index], args.length);
             if (material == null) {
-                SimpleEditCommands.invalidArgument(sender, ReplaceNearCommand.usage, args[index]);
+                SimpleEditCommands.invalidArgument(sender, super.getUsage(), args[index]);
                 return;
             }
 
@@ -58,14 +56,14 @@ public final class ReplaceNearCommand {
         ReplaceNearAction.run(((Player) sender).getLocation(), radius, masks, materials);
     }
 
-    public static List<String> onTabComplete(final String[] args) {
+    @Override
+    public final List<String> onTabComplete(final String[] args) {
         if (args.length == 2) {
-            return Lists.newArrayList("radius");
-        } else if (args.length == 3) {
-            final String[] split = args[1].split(",");
-            return StringUtil.copyPartialMatches(split[split.length - 1], Utils.getMaterialStrings(), new ArrayList<>());
-        } else {
+            return Lists.newArrayList("radius #");
+        } else if (args.length > 2) {
             return Utils.getMaterialChanceTabComplete(args[args.length - 1]);
         }
+
+        return super.onTabComplete(args);
     }
 }

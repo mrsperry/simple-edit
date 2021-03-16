@@ -2,6 +2,7 @@ package io.github.mrsperry.simpleedit.commands.selection.actions;
 
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.Utils;
+import io.github.mrsperry.simpleedit.commands.ICommandHandler;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
@@ -13,17 +14,14 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ReplaceCommand {
-    private static final String usage = "replace <material[,material...]> [chance%]<material> [materials...]";
+public final class ReplaceCommand extends ICommandHandler {
+    public ReplaceCommand() {
+        super("replace <material[,material...]> [chance%]<material> [materials...]");
+    }
 
-    public static void onCommand(final CommandSender sender, final String[] args) {
-        if (!(sender instanceof Player)) {
-            SimpleEditCommands.mustBePlayer(sender);
-            return;
-        }
-
-        if (args.length < 3) {
-            SimpleEditCommands.tooFewArguments(sender, ReplaceCommand.usage);
+    @Override
+    public final void onCommand(final CommandSender sender, final String[] args) {
+        if (super.commandPrerequisites(sender, args, 2, -1)) {
             return;
         }
 
@@ -32,7 +30,7 @@ public final class ReplaceCommand {
             try {
                 masks.add(Material.valueOf(mask.toUpperCase()));
             } catch (final IllegalArgumentException ex) {
-                SimpleEditCommands.invalidArgument(sender, ReplaceCommand.usage, args[1]);
+                SimpleEditCommands.invalidArgument(sender, super.getUsage(), args[1]);
                 return;
             }
         }
@@ -41,7 +39,7 @@ public final class ReplaceCommand {
         for (int index = 2; index < args.length; index++) {
             final Pair<Material, Integer> material = Utils.parseMaterialChance(args[index], args.length);
             if (material == null) {
-                SimpleEditCommands.invalidArgument(sender, ReplaceCommand.usage, args[index]);
+                SimpleEditCommands.invalidArgument(sender, super.getUsage(), args[index]);
                 return;
             }
 
@@ -52,14 +50,15 @@ public final class ReplaceCommand {
         ReplaceAction.run(session.getSelection(), masks, materials);
     }
 
-    public static List<String> onTabComplete(final String[] args) {
+    @Override
+    public final List<String> onTabComplete(final String[] args) {
         if (args.length == 2) {
             final String[] split = args[1].split(",");
             return StringUtil.copyPartialMatches(split[split.length - 1], Utils.getMaterialStrings(), new ArrayList<>());
-        } else if (args.length >= 2) {
+        } else if (args.length > 2) {
             return Utils.getMaterialChanceTabComplete(args[args.length - 1]);
         }
 
-        return null;
+        return super.onTabComplete(args);
     }
 }

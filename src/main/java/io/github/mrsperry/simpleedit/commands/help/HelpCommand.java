@@ -1,44 +1,56 @@
 package io.github.mrsperry.simpleedit.commands.help;
 
 import com.google.common.collect.Lists;
+import io.github.mrsperry.simpleedit.commands.ICommandHandler;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
-public final class HelpCommand {
-    private static final int linesToDisplay = 5;
-    private static final ArrayList<String> pages = new ArrayList<>(Arrays.asList(
-            "pos1 - sets the first clipboard position",
-            "pos2 - sets the second clipboard position",
-            "outline - shows the outline of your selection",
-            "set - replaces all materials with any number of materials",
-            "replace - replaces specific materials with other materials",
-            "replacenear - replaces specific materials around you (not your selection) with other materials",
-            "box - creates an enclosed box (add '-h' for hollow faces) out of the specified materials",
-            "walls - creates solid walls out of the specified materials",
-            "copy - copies the current selection to be pasted elsewhere",
-            "paste - pastes the copied selection relative to your position",
-            "wand - gives you a wand item that can be used to set positions"
-    ));
+public final class HelpCommand extends ICommandHandler {
+    private final int linesToDisplay;
+    private final ArrayList<String> pages;
 
-    public static void onCommand(final CommandSender sender, final String[] args) {
+    public HelpCommand() {
+        super("help [page]");
+
+        this.linesToDisplay = 5;
+        this.pages = new ArrayList<>(Arrays.asList(
+                "pos1 - sets the first clipboard position",
+                "pos2 - sets the second clipboard position",
+                "outline - shows the outline of your selection",
+                "set - replaces all materials with any number of materials",
+                "replace - replaces specific materials with other materials",
+                "replacenear - replaces specific materials around you (not your selection) with other materials",
+                "box - creates an enclosed box (add '-h' for hollow faces) out of the specified materials",
+                "walls - creates solid walls out of the specified materials",
+                "copy - copies the current selection to be pasted elsewhere",
+                "paste - pastes the copied selection relative to your position",
+                "wand - gives you a wand item that can be used to set positions"
+        ));
+    }
+
+    @Override
+    public final void onCommand(final CommandSender sender, final String[] args) {
+        if (super.commandPrerequisites(sender, args, 0, 1)) {
+            return;
+        }
+
         int page = 0;
         if (args.length == 2) {
             try {
                 page = Integer.parseInt(args[1]) - 1;
             } catch (final NumberFormatException ex) {
-                SimpleEditCommands.invalidArgument(sender, HelpCommand.getErrorMessage(), args[1]);
+                SimpleEditCommands.invalidArgument(sender, this.getErrorMessage(), args[1]);
                 return;
             }
-        } else if (args.length != 1) {
-            SimpleEditCommands.tooManyArguments(sender, HelpCommand.getErrorMessage());
-            return;
         }
 
-        if (page < 0 || page > HelpCommand.getNumberOfPages() - 1) {
-            SimpleEditCommands.invalidArgument(sender, HelpCommand.getErrorMessage(), args[1]);
+        if (page < 0 || page > this.getNumberOfPages() - 1) {
+            SimpleEditCommands.invalidArgument(sender, this.getErrorMessage(), args[1]);
             return;
         }
 
@@ -47,11 +59,11 @@ public final class HelpCommand {
                 .append("===== SimpleEdit Help (")
                 .append(page + 1)
                 .append("/")
-                .append(HelpCommand.getNumberOfPages())
+                .append(this.getNumberOfPages())
                 .append(") =====\n");
-        for (int index = 0; index < HelpCommand.linesToDisplay; index++) {
+        for (int index = 0; index < this.linesToDisplay; index++) {
             try {
-                message.append(HelpCommand.pages.get((page * HelpCommand.linesToDisplay) + index))
+                message.append(this.pages.get((page * this.linesToDisplay) + index))
                         .append("\n");
             } catch (final IndexOutOfBoundsException ex) {
                 break;
@@ -61,19 +73,21 @@ public final class HelpCommand {
         sender.sendMessage(message.toString());
     }
 
-    public static ArrayList<String> onTabComplete(final int length) {
-        if (length == 2) {
+    @Override
+    public final List<String> onTabComplete(final String[] args) {
+        Bukkit.getLogger().info("Tab");
+        if (args.length > 1) {
             return Lists.newArrayList("page #");
-        } else {
-            return null;
         }
+
+        return super.onTabComplete(args);
     }
 
-    private static String getErrorMessage() {
-        return "help [page (1-" + HelpCommand.getNumberOfPages() + ")]";
+    private String getErrorMessage() {
+        return "help [page (1-" + this.getNumberOfPages() + ")]";
     }
 
-    private static int getNumberOfPages() {
-        return (int) Math.ceil(HelpCommand.pages.size() / (float) HelpCommand.linesToDisplay);
+    private int getNumberOfPages() {
+        return (int) Math.ceil(this.pages.size() / (float) this.linesToDisplay);
     }
 }

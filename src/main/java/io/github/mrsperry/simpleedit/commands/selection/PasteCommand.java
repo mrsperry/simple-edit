@@ -1,5 +1,6 @@
 package io.github.mrsperry.simpleedit.commands.selection;
 
+import io.github.mrsperry.simpleedit.commands.ICommandHandler;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
@@ -7,12 +8,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public final class PasteCommand {
-    private static final String usage = "paste [-a]";
+public final class PasteCommand extends ICommandHandler {
+    public PasteCommand() {
+        super("paste [-a]");
+    }
 
-    public static void onCommand(final CommandSender sender, final String[] args) {
-        if (!(sender instanceof Player)) {
-            SimpleEditCommands.mustBePlayer(sender);
+    @Override
+    public final void onCommand(final CommandSender sender, final String[] args) {
+        if (super.commandPrerequisites(sender, args, 0, 1)) {
             return;
         }
 
@@ -21,11 +24,9 @@ public final class PasteCommand {
             if (args[1].equalsIgnoreCase("-a")) {
                 ignoreAir = true;
             } else {
-                SimpleEditCommands.invalidArgument(sender, PasteCommand.usage, args[1]);
+                SimpleEditCommands.invalidArgument(sender, this.getUsage(), args[1]);
+                return;
             }
-        } else if (args.length > 2) {
-            SimpleEditCommands.tooManyArguments(sender, PasteCommand.usage);
-            return;
         }
 
         final Player player = (Player) sender;

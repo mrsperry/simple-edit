@@ -1,23 +1,20 @@
 package io.github.mrsperry.simpleedit.commands.selection;
 
-import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
+import io.github.mrsperry.simpleedit.commands.ICommandHandler;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public final class CopyCommand {
-    private static final String usage = "copy";
+public final class CopyCommand extends ICommandHandler {
+    public CopyCommand() {
+        super("copy");
+    }
 
-    public static void onCommand(final CommandSender sender, final int argsLength) {
-        if (!(sender instanceof Player)) {
-            SimpleEditCommands.mustBePlayer(sender);
-            return;
-        }
-
-        if (argsLength > 1) {
-            SimpleEditCommands.tooManyArguments(sender, CopyCommand.usage);
+    @Override
+    public final void onCommand(final CommandSender sender, final String[] args) {
+        if (super.commandPrerequisites(sender, args)) {
             return;
         }
 

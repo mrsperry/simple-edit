@@ -1,6 +1,5 @@
 package io.github.mrsperry.simpleedit.commands;
 
-import com.google.common.collect.Lists;
 import io.github.mrsperry.simpleedit.commands.help.HelpCommand;
 import io.github.mrsperry.simpleedit.commands.items.WandCommand;
 import io.github.mrsperry.simpleedit.commands.selection.*;
@@ -10,91 +9,52 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.util.StringUtil;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public final class SimpleEditCommands implements TabExecutor {
+    private final Map<String, ICommandHandler> commands;
+
+    public SimpleEditCommands() {
+        this.commands = new HashMap<>();
+        this.commands.put("help", new HelpCommand());
+        this.commands.put("pos1", new PositionCommand());
+        this.commands.put("pos2", new PositionCommand());
+        this.commands.put("outline", new OutlineCommand());
+        this.commands.put("set", new SetCommand());
+        this.commands.put("replace", new ReplaceCommand());
+        this.commands.put("replacenear", new ReplaceNearCommand());
+        this.commands.put("box", new BoxCommand());
+        this.commands.put("walls", new WallsCommand());
+        this.commands.put("copy", new CopyCommand());
+        this.commands.put("paste", new PasteCommand());
+        this.commands.put("wand", new WandCommand());
+    }
+
     @Override
     public final boolean onCommand(final CommandSender sender, final Command command, final String line, final String[] args) {
         if (args.length >= 1) {
-            switch (args[0]) {
-                case "help":
-                    HelpCommand.onCommand(sender, args);
-                    break;
-                case "pos1":
-                case "pos2":
-                    PositionCommand.onCommand(sender, args);
-                    break;
-                case "outline":
-                    OutlineCommand.onCommand(sender, args.length);
-                    break;
-                case "set":
-                    SetCommand.onCommand(sender, args);
-                    break;
-                case "replace":
-                    ReplaceCommand.onCommand(sender, args);
-                    break;
-                case "replacenear":
-                    ReplaceNearCommand.onCommand(sender, args);
-                    break;
-                case "box":
-                    BoxCommand.onCommand(sender, args);
-                    break;
-                case "walls":
-                    WallsCommand.onCommand(sender, args);
-                    break;
-                case "copy":
-                    CopyCommand.onCommand(sender, args.length);
-                    break;
-                case "paste":
-                    PasteCommand.onCommand(sender, args);
-                    break;
-                case "wand":
-                    WandCommand.onCommand(sender, args.length);
-                    break;
-                default:
-                    SimpleEditCommands.invalidArgument(sender, "<action | help>", args[0]);
-                    break;
+            final String cmd = args[0].toLowerCase();
+            if (this.commands.containsKey(cmd)) {
+                this.commands.get(cmd).onCommand(sender, args);
+                return true;
             }
-        } else {
-            SimpleEditCommands.tooFewArguments(sender, "<action | help>");
+
+            SimpleEditCommands.invalidArgument(sender, "<action | help>", args[0]);
+            return true;
         }
 
+        SimpleEditCommands.tooFewArguments(sender, "<action | help>");
         return true;
     }
 
     @Override
     public final List<String> onTabComplete(final CommandSender sender, final Command command, final String line, final String[] args) {
-        switch (args[0]) {
-            case "help":
-                return HelpCommand.onTabComplete(args.length);
-            case "set":
-                return SetCommand.onTabComplete(args);
-            case "replace":
-                return ReplaceCommand.onTabComplete(args);
-            case "replacenear":
-                return ReplaceNearCommand.onTabComplete(args);
-            case "box":
-                return BoxCommand.onTabComplete(args);
-            case "walls":
-                return WallsCommand.onTabComplete(args);
-            default:
-                return StringUtil.copyPartialMatches(args[0], Lists.newArrayList(
-                        "help",
-                        "pos1",
-                        "pos2",
-                        "outline",
-                        "set",
-                        "replace",
-                        "replacenear",
-                        "box",
-                        "walls",
-                        "copy",
-                        "paste",
-                        "wand"
-                    ), new ArrayList<>());
+        final String cmd = args[0].toLowerCase();
+        if (this.commands.containsKey(cmd)) {
+            return this.commands.get(cmd).onTabComplete(args);
         }
+
+        return StringUtil.copyPartialMatches(args[0], this.commands.keySet(), new ArrayList<>());
     }
 
     /**
