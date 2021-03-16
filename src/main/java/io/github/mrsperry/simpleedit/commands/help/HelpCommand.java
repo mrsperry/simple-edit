@@ -29,7 +29,8 @@ public final class HelpCommand extends ICommandHandler {
                 "walls - creates solid walls out of the specified materials",
                 "copy - copies the current selection to be pasted elsewhere",
                 "paste - pastes the copied selection relative to your position",
-                "wand - gives you a wand item that can be used to set positions"
+                "wand - gives you a wand item that can be used to set positions",
+                "fill - flood fills an area based on the specified radius"
         ));
     }
 
