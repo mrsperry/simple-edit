@@ -53,7 +53,9 @@ public final class Utils {
     public static List<String> getMaterialStrings() {
         final List<String> materials = new ArrayList<>();
         for (final Material material : Material.values()) {
-            materials.add(material.toString().toLowerCase());
+            if (material.isBlock()) {
+                materials.add(material.toString().toLowerCase());
+            }
         }
         return materials;
     }
