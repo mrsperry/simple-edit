@@ -28,6 +28,7 @@ public final class SimpleEditCommands implements TabExecutor {
         this.commands.put("copy", new CopyCommand());
         this.commands.put("paste", new PasteCommand());
         this.commands.put("wand", new WandCommand());
+        this.commands.put("fill", new FillCommand());
     }
 
     @Override
