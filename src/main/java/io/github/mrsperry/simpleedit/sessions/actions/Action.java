@@ -25,11 +25,11 @@ public abstract class Action {
     private Consumer<Block> action;
     private Map<Location, Pair<Material, BlockData>> affected;
 
-    protected void run(final SelectionHistory history, final List<Block> blocks, final Consumer<Block> action) {
+    protected final void run(final SelectionHistory history, final List<Block> blocks, final Consumer<Block> action) {
         this.run(history, blocks, new ArrayList<>(), action);
     }
 
-    protected void run(final SelectionHistory history, final List<Block> blocks, final List<Material> masks, final Consumer<Block> action) {
+    protected final void run(final SelectionHistory history, final List<Block> blocks, final List<Material> masks, final Consumer<Block> action) {
         this.blocks = blocks;
         this.masks = masks;
         this.action = action;
@@ -39,7 +39,7 @@ public abstract class Action {
         history.record(this);
     }
 
-    protected List<Material> getMaterialWeights(final List<Pair<Material, Integer>> materials) {
+    protected final List<Material> getMaterialWeights(final List<Pair<Material, Integer>> materials) {
         final List<Material> weights = new ArrayList<>();
         for (final Pair<Material, Integer> weight : materials) {
             for (int index = 0; index < weight.getValue(); index++) {
@@ -78,7 +78,7 @@ public abstract class Action {
         }.runTaskLater(Action.plugin, 1);
     }
 
-    public void undo() {
+    public final void undo() {
         for (final Location location : this.affected.keySet()) {
             final World world = location.getWorld();
             if (world == null) {
@@ -92,7 +92,7 @@ public abstract class Action {
         }
     }
 
-    public void redo() {
+    public final void redo() {
         this.runNewTask(0);
     }
 }
