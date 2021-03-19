@@ -1,10 +1,11 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
+import io.github.mrsperry.simpleedit.sessions.actions.PasteAction;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
-public class SelectionClipboard {
+public final class SelectionClipboard {
     private final Selection selection;
 
     private Block[][][] blocks;
@@ -32,24 +33,7 @@ public class SelectionClipboard {
     }
 
     public final void paste(final Location location, final boolean ignoreAir) {
-        final World world = this.selection.getPosition().getWorld();
-
-        location.subtract(this.copyOffset);
-
-        for (int x = 0; x < this.blocks.length; x++) {
-            for (int y = 0;  y < this.blocks[0].length; y++) {
-                for (int z = 0; z < this.blocks[0][0].length; z++) {
-                    final Block block = this.blocks[x][y][z];
-                    if (ignoreAir && block.getType().isAir()) {
-                        continue;
-                    }
-
-                    final Block replace = world.getBlockAt(location.clone().add(x, y, z));
-                    replace.setType(block.getType());
-                    replace.setBlockData(block.getBlockData(), true);
-                }
-            }
-        }
+        PasteAction.run(this.selection.getHistory(), location.subtract(this.copyOffset), ignoreAir, this.blocks);
     }
 
     public final void rotate(final int amount) {

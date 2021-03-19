@@ -3,7 +3,6 @@ package io.github.mrsperry.simpleedit.sessions.actions;
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.SimpleEdit;
 import io.github.mrsperry.simpleedit.sessions.selections.SelectionHistory;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -96,5 +95,4 @@ public class Action {
     public void redo() {
         this.runNewTask(0);
     }
-
 }
