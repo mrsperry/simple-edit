@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
-public class Action {
+public abstract class Action {
     private static final JavaPlugin plugin = SimpleEdit.getInstance();
     private static final int blockLimit = Action.plugin.getConfig().getInt("affected-blocks-per-tick", 3000);
 
