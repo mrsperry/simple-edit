@@ -54,7 +54,12 @@ public final class BoxCommand extends ICommandHandler {
     @Override
     public final List<String> onTabComplete(final String[] args) {
         if (args.length > 1) {
-            return Utils.getMaterialChanceTabComplete(args[args.length - 1]);
+            final List<String> complete = Utils.getMaterialChanceTabComplete(args[args.length - 1]);
+            if (args.length == 2) {
+                complete.add("-h");
+            }
+
+            return complete;
         }
 
         return super.onTabComplete(args);
