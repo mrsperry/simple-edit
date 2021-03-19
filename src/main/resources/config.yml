@@ -1,3 +1,6 @@
+# If the commands should be registered to act like WorldEdit commands (ex: "//pos1" vs "/se pos1"
+world-edit-commands: true
+
 # The material used as a selection wand
 wand-material: "wood axe"
 # If the wand can only be used in creative mode

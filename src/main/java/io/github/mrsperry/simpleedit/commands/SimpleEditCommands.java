@@ -1,9 +1,11 @@
 package io.github.mrsperry.simpleedit.commands;
 
+import com.google.common.collect.Lists;
 import io.github.mrsperry.simpleedit.commands.help.HelpCommand;
 import io.github.mrsperry.simpleedit.commands.items.WandCommand;
 import io.github.mrsperry.simpleedit.commands.selection.*;
 import io.github.mrsperry.simpleedit.commands.selection.actions.*;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -12,10 +14,13 @@ import org.bukkit.util.StringUtil;
 import java.util.*;
 
 public final class SimpleEditCommands implements TabExecutor {
+    private static boolean worldEditCommands;
     private final Map<String, ICommandHandler> commands;
 
-    public SimpleEditCommands() {
+    public SimpleEditCommands(final boolean worldEditCommands) {
+        SimpleEditCommands.worldEditCommands = worldEditCommands;
         this.commands = new HashMap<>();
+
         this.commands.put("help", new HelpCommand());
         this.commands.put("pos1", new PositionCommand());
         this.commands.put("pos2", new PositionCommand());
@@ -34,8 +39,20 @@ public final class SimpleEditCommands implements TabExecutor {
         this.commands.put("redo", new RedoCommand());
     }
 
+    private String[] convertArgs(final Command command, String[] args) {
+        final String[] copy = new String[args.length + 1];
+        copy[0] = command.getName().toLowerCase().substring(1);
+        System.arraycopy(args, 0, copy, 1, args.length);
+
+        return copy;
+    }
+
     @Override
-    public final boolean onCommand(final CommandSender sender, final Command command, final String line, final String[] args) {
+    public final boolean onCommand(final CommandSender sender, final Command command, final String line, String[] args) {
+        if (SimpleEditCommands.worldEditCommands && command.getName().startsWith("/")) {
+            args = this.convertArgs(command, args);
+        }
+
         if (args.length >= 1) {
             final String cmd = args[0].toLowerCase();
             if (this.commands.containsKey(cmd)) {
@@ -52,13 +69,21 @@ public final class SimpleEditCommands implements TabExecutor {
     }
 
     @Override
-    public final List<String> onTabComplete(final CommandSender sender, final Command command, final String line, final String[] args) {
+    public final List<String> onTabComplete(final CommandSender sender, final Command command, final String line, String[] args) {
+        if (SimpleEditCommands.worldEditCommands && command.getName().startsWith("/")) {
+            args = this.convertArgs(command, args);
+        }
+
         final String cmd = args[0].toLowerCase();
         if (this.commands.containsKey(cmd)) {
             return this.commands.get(cmd).onTabComplete(args);
         }
 
         return StringUtil.copyPartialMatches(args[0], this.commands.keySet(), new ArrayList<>());
+    }
+
+    public final Map<String, ICommandHandler> getCommandMap() {
+        return this.commands;
     }
 
     /**
@@ -98,7 +123,7 @@ public final class SimpleEditCommands implements TabExecutor {
      * @param usage The proper command usage
      */
     public static void usage(final CommandSender sender, final String usage) {
-        sender.sendMessage(ChatColor.RED + "Usage: /simpleedit " + usage);
+        sender.sendMessage(ChatColor.RED + "Usage: /" + (SimpleEditCommands.worldEditCommands ? "/" : "simpleedit") + " " +  usage);
     }
 
     /**
