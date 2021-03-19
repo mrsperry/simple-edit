@@ -1,6 +1,7 @@
 package io.github.mrsperry.simpleedit.sessions.actions;
 
 import io.github.mrsperry.mcutils.classes.Pair;
+import io.github.mrsperry.simpleedit.sessions.selections.SelectionHistory;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,7 +11,7 @@ import java.util.List;
 import java.util.Random;
 
 public final class CylAction extends Action {
-    private CylAction(final Location center, final int radius, final int height, final List<Pair<Material, Integer>> materials) {
+    private CylAction(final SelectionHistory history, final Location center, final int radius, final int height, final List<Pair<Material, Integer>> materials) {
         final Random random = new Random();
         final List<Material> weights = super.getMaterialWeights(materials);
 
@@ -31,13 +32,13 @@ public final class CylAction extends Action {
             }
         }
 
-        super.run(blocks, (final Block block) -> {
+        super.run(history, blocks, (final Block block) -> {
             final Material material = weights.get(random.nextInt(weights.size()));
             block.setType(material);
         });
     }
 
-    public static void run(final Location center, final int radius, final int height, final List<Pair<Material, Integer>> materials) {
-        new CylAction(center, radius, height, materials);
+    public static void run(final SelectionHistory history, final Location center, final int radius, final int height, final List<Pair<Material, Integer>> materials) {
+        new CylAction(history, center, radius, height, materials);
     }
 }

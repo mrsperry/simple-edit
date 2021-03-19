@@ -5,6 +5,8 @@ import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.Utils;
 import io.github.mrsperry.simpleedit.commands.ICommandHandler;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
+import io.github.mrsperry.simpleedit.sessions.Session;
+import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import io.github.mrsperry.simpleedit.sessions.actions.ReplaceNearAction;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -53,7 +55,9 @@ public final class ReplaceNearCommand extends ICommandHandler {
             materials.add(material);
         }
 
-        ReplaceNearAction.run(((Player) sender).getLocation(), radius, masks, materials);
+        final Player player = (Player) sender;
+        final Session session = SessionManager.getSession(player.getUniqueId());
+        ReplaceNearAction.run(session.getSelection().getHistory(), player.getLocation(), radius, masks, materials);
     }
 
     @Override

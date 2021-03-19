@@ -5,6 +5,8 @@ import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.Utils;
 import io.github.mrsperry.simpleedit.commands.ICommandHandler;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
+import io.github.mrsperry.simpleedit.sessions.Session;
+import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import io.github.mrsperry.simpleedit.sessions.actions.FillAction;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -43,7 +45,8 @@ public final class FillCommand extends ICommandHandler {
         }
 
         final Player player = (Player) sender;
-        FillAction.run(player.getLocation(), radius, materials);
+        final Session session = SessionManager.getSession(player.getUniqueId());
+        FillAction.run(session.getSelection().getHistory(), player.getLocation(), radius, materials);
     }
 
     @Override

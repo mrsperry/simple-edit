@@ -30,6 +30,8 @@ public final class SimpleEditCommands implements TabExecutor {
         this.commands.put("wand", new WandCommand());
         this.commands.put("fill", new FillCommand());
         this.commands.put("cyl", new CylCommand());
+        this.commands.put("undo", new UndoCommand());
+        this.commands.put("redo", new RedoCommand());
     }
 
     @Override

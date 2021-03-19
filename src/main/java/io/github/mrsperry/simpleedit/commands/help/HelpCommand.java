@@ -31,7 +31,9 @@ public final class HelpCommand extends ICommandHandler {
                 "paste - pastes the copied selection relative to your position",
                 "wand - gives you a wand item that can be used to set positions",
                 "fill - flood fills an area based on the specified radius",
-                "cyl - creates a cylinder (add '-h' for additional height) out of the specified materials"
+                "cyl - creates a cylinder (add '-h' for additional height) out of the specified materials",
+                "undo - undoes your previous actions",
+                "redo - redoes your previous actions"
         ));
     }
 

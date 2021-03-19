@@ -5,6 +5,8 @@ import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.Utils;
 import io.github.mrsperry.simpleedit.commands.ICommandHandler;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
+import io.github.mrsperry.simpleedit.sessions.Session;
+import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import io.github.mrsperry.simpleedit.sessions.actions.CylAction;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -60,7 +62,8 @@ public final class CylCommand extends ICommandHandler {
         }
 
         final Player player = (Player) sender;
-        CylAction.run(player.getLocation(), radius, height, materials);
+        final Session session = SessionManager.getSession(player.getUniqueId());
+        CylAction.run(session.getSelection().getHistory(), player.getLocation(), radius, height, materials);
     }
 
     @Override

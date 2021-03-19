@@ -10,11 +10,13 @@ import java.util.function.Predicate;
 
 public final class Selection {
     private final SelectionClipboard clipboard;
+    private final SelectionHistory history;
     private final SelectionPosition position;
     private final SelectionOutline outline;
 
     public Selection() {
         this.clipboard = new SelectionClipboard(this);
+        this.history = new SelectionHistory();
         this.position = new SelectionPosition(this);
         this.outline = new SelectionOutline(this, SimpleEdit.getInstance().getConfig().getLong("outline-update-rate", 10));
     }
@@ -124,6 +126,10 @@ public final class Selection {
 
     public final SelectionClipboard getClipboard() {
         return this.clipboard;
+    }
+
+    public final SelectionHistory getHistory() {
+        return this.history;
     }
 
     public final SelectionPosition getPosition() {
