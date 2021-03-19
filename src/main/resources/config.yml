@@ -2,7 +2,7 @@
 world-edit-commands: true
 
 # The material used as a selection wand
-wand-material: "wood axe"
+wand-material: "wooden axe"
 # If the wand can only be used in creative mode
 creative-only-wand: true
 

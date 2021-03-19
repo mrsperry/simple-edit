@@ -27,7 +27,7 @@ public final class Wand implements Listener {
         final Logger logger = plugin.getLogger();
 
         Wand.wandMaterial = Material.WOODEN_AXE;
-        final String material = config.getString("wand-material", "wood axe");
+        final String material = config.getString("wand-material", "wooden axe");
         try {
             if (material != null) {
                 Wand.wandMaterial = Material.valueOf(material.toUpperCase().replaceAll(" ", "_"));
@@ -53,7 +53,7 @@ public final class Wand implements Listener {
         final boolean isFirstPosition = action == Action.LEFT_CLICK_BLOCK;
 
         final Player player = event.getPlayer();
-        if (player.getInventory().getItemInMainHand().getType() != this.wandMaterial) {
+        if (player.getInventory().getItemInMainHand().getType() != Wand.wandMaterial) {
             return;
         }
 
