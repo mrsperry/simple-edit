@@ -1,6 +1,6 @@
 package io.github.mrsperry.simpleedit;
 
-import io.github.mrsperry.simpleedit.commands.ICommandHandler;
+import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.items.Wand;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
@@ -54,7 +54,7 @@ public final class SimpleEdit extends JavaPlugin implements Listener {
             pluginCommand.setAccessible(true);
 
             // Get the command executor along with a list of commands to register
-            final Map<String, ICommandHandler> commandMap = executor.getCommandMap();
+            final Map<String, BaseCommand> commandMap = executor.getCommandMap();
 
             final CommandMap registrar = (CommandMap) field.get(server);
             final String pluginName = this.getName();

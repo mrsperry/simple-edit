@@ -3,7 +3,7 @@ package io.github.mrsperry.simpleedit.commands.selection.actions;
 import com.google.common.collect.Lists;
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.Utils;
-import io.github.mrsperry.simpleedit.commands.ICommandHandler;
+import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class FillCommand extends ICommandHandler {
+public final class FillCommand extends BaseCommand {
     public FillCommand() {
         super("fill <radius> [chance%]<material> [materials...]");
     }

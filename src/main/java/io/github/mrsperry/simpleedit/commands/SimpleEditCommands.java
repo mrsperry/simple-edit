@@ -1,11 +1,9 @@
 package io.github.mrsperry.simpleedit.commands;
 
-import com.google.common.collect.Lists;
 import io.github.mrsperry.simpleedit.commands.help.HelpCommand;
 import io.github.mrsperry.simpleedit.commands.items.WandCommand;
 import io.github.mrsperry.simpleedit.commands.selection.*;
 import io.github.mrsperry.simpleedit.commands.selection.actions.*;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,7 +13,7 @@ import java.util.*;
 
 public final class SimpleEditCommands implements TabExecutor {
     private static boolean worldEditCommands;
-    private final Map<String, ICommandHandler> commands;
+    private final Map<String, BaseCommand> commands;
 
     public SimpleEditCommands(final boolean worldEditCommands) {
         SimpleEditCommands.worldEditCommands = worldEditCommands;
@@ -82,7 +80,7 @@ public final class SimpleEditCommands implements TabExecutor {
         return StringUtil.copyPartialMatches(args[0], this.commands.keySet(), new ArrayList<>());
     }
 
-    public final Map<String, ICommandHandler> getCommandMap() {
+    public final Map<String, BaseCommand> getCommandMap() {
         return this.commands;
     }
 

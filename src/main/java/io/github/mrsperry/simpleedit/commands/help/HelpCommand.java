@@ -1,7 +1,7 @@
 package io.github.mrsperry.simpleedit.commands.help;
 
 import com.google.common.collect.Lists;
-import io.github.mrsperry.simpleedit.commands.ICommandHandler;
+import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public final class HelpCommand extends ICommandHandler {
+public final class HelpCommand extends BaseCommand {
     private final int linesToDisplay;
     private final ArrayList<String> pages;
 

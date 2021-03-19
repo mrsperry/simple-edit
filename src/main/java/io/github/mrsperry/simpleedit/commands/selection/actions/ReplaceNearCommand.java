@@ -3,7 +3,7 @@ package io.github.mrsperry.simpleedit.commands.selection.actions;
 import com.google.common.collect.Lists;
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.Utils;
-import io.github.mrsperry.simpleedit.commands.ICommandHandler;
+import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
@@ -11,11 +11,11 @@ import io.github.mrsperry.simpleedit.sessions.actions.ReplaceNearAction;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.StringUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ReplaceNearCommand extends ICommandHandler {
+public final class ReplaceNearCommand extends BaseCommand {
     public ReplaceNearCommand() {
         super("replacenear <radius> <material[,material...]> [chance%]<material> [materials...]");
     }

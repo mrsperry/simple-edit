@@ -2,7 +2,7 @@ package io.github.mrsperry.simpleedit.commands.selection.actions;
 
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.Utils;
-import io.github.mrsperry.simpleedit.commands.ICommandHandler;
+import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class WallsCommand extends ICommandHandler {
+public final class WallsCommand extends BaseCommand {
     public WallsCommand() {
         super("walls [chance%]<material> [materials...]");
     }

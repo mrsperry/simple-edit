@@ -1,13 +1,13 @@
 package io.github.mrsperry.simpleedit.commands.selection;
 
-import io.github.mrsperry.simpleedit.commands.ICommandHandler;
+import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public final class RedoCommand extends ICommandHandler {
+public final class RedoCommand extends BaseCommand {
     public RedoCommand() {
         super("undo");
     }

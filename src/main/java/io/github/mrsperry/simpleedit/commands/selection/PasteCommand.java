@@ -1,7 +1,7 @@
 package io.github.mrsperry.simpleedit.commands.selection;
 
 import com.google.common.collect.Lists;
-import io.github.mrsperry.simpleedit.commands.ICommandHandler;
+import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import java.util.List;
 
-public final class PasteCommand extends ICommandHandler {
+public final class PasteCommand extends BaseCommand {
     public PasteCommand() {
         super("paste [-a]");
     }

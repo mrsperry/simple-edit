@@ -1,12 +1,12 @@
 package io.github.mrsperry.simpleedit.commands.items;
 
-import io.github.mrsperry.simpleedit.commands.ICommandHandler;
+import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.items.Wand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public final class WandCommand extends ICommandHandler {
+public final class WandCommand extends BaseCommand {
     public WandCommand() {
         super("wand");
     }

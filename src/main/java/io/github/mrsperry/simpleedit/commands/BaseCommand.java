@@ -7,10 +7,10 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class ICommandHandler {
+public abstract class BaseCommand {
     private final String usage;
 
-    protected ICommandHandler(final String usage) {
+    protected BaseCommand(final String usage) {
         this.usage = usage;
     }
 
