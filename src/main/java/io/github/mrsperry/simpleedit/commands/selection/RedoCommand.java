@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 
 public final class RedoCommand extends BaseCommand {
     public RedoCommand() {
-        super("undo");
+        super("redo");
     }
 
     @Override
