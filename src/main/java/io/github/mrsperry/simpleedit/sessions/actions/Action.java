@@ -59,6 +59,25 @@ public abstract class Action {
         return weights;
     }
 
+    protected final List<Block> searchForBlocks(final Location center, final int radius, final List<Material> masks) {
+        final List<Block> blocks = new ArrayList<>();
+        final Block centerBlock = center.getBlock();
+
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                for (int z = -radius; z <= radius; z++) {
+                    final Block current = centerBlock.getRelative(x, y, z);
+
+                    if (masks.contains(current.getType())) {
+                        blocks.add(current);
+                    }
+                }
+            }
+        }
+
+        return blocks;
+    }
+
     private void runNewTask(final int counter) {
         final List<Block> blocks = this.blocks;
         final List<Material> masks = this.masks;
