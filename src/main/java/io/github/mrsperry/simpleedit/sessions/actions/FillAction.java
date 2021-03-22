@@ -7,13 +7,9 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public final class FillAction extends Action {
     private FillAction(final SelectionHistory history, final Location center, final int radius, final List<Pair<Material, Integer>> materials) {
-        final Random random = new Random();
-        final List<Material> weights = super.getMaterialWeights(materials);
-
         final List<Block> blocks = new ArrayList<>();
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
@@ -30,10 +26,7 @@ public final class FillAction extends Action {
             }
         }
 
-        super.run(history, blocks, (final Block block) -> {
-            final Material material = weights.get(random.nextInt(weights.size()));
-            block.setType(material);
-        });
+        super.run(history, blocks, super.getMaterialWeights(materials));
     }
 
     public static void run(final SelectionHistory history, final Location center, final int radius, final List<Pair<Material, Integer>> materials) {

@@ -10,10 +10,8 @@ import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class Action {
@@ -25,8 +23,19 @@ public abstract class Action {
     private Consumer<Block> action;
     private Map<Location, Pair<Material, BlockData>> affected;
 
+    protected final void run(final SelectionHistory history, final List<Block> blocks, final List<Material> weights) {
+        this.run(history, blocks, new ArrayList<>(), weights);
+    }
+
     protected final void run(final SelectionHistory history, final List<Block> blocks, final Consumer<Block> action) {
         this.run(history, blocks, new ArrayList<>(), action);
+    }
+
+    protected final void run(final SelectionHistory history, final List<Block> blocks, final List<Material> masks, final List<Material> weights) {
+        final Random random = new Random();
+        final int size = weights.size();
+
+        this.run(history, blocks, masks, (final Block block) -> block.setType(weights.get(random.nextInt(size))));
     }
 
     protected final void run(final SelectionHistory history, final List<Block> blocks, final List<Material> masks, final Consumer<Block> action) {
