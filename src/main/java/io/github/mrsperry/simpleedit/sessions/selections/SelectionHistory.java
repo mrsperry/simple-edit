@@ -1,41 +1,40 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
 import io.github.mrsperry.simpleedit.sessions.actions.Action;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 public final class SelectionHistory {
-    final List<Action> undos;
-    final List<Action> redos;
+    final Stack<Action> undos;
+    final Stack<Action> redos;
 
     public SelectionHistory() {
-        this.undos = new ArrayList<>();
-        this.redos = new ArrayList<>();
+        this.undos = new Stack<>();
+        this.redos = new Stack<>();
     }
 
     public final void record(final Action action) {
-        this.undos.add(0, action);
+        this.undos.add(action);
     }
 
     public final boolean undo() {
-        if (this.undos.size() == 0) {
+        if (this.undos.isEmpty()) {
             return false;
         }
 
-        final Action action = this.undos.remove(0);
+        final Action action = this.undos.pop();
         action.undo();
-        this.redos.add(0, action);
+        this.redos.push(action);
         return true;
     }
 
     public final boolean redo() {
-        if (this.redos.size() == 0) {
+        if (this.redos.isEmpty()) {
             return false;
         }
 
-        final Action action = this.redos.remove(0);
+        final Action action = this.redos.pop();
         action.redo();
-        this.undos.add(0, action);
+        this.undos.push(action);
         return true;
     }
 }
