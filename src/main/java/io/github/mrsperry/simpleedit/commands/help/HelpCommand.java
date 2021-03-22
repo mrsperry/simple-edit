@@ -79,7 +79,6 @@ public final class HelpCommand extends BaseCommand {
 
     @Override
     public final List<String> onTabComplete(final String[] args) {
-        Bukkit.getLogger().info("Tab");
         if (args.length > 1) {
             return Lists.newArrayList("page #");
         }
