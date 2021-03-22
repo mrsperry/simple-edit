@@ -2,7 +2,6 @@ package io.github.mrsperry.simpleedit.sessions.selections;
 
 import io.github.mrsperry.simpleedit.sessions.actions.PasteAction;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 
 public final class SelectionClipboard {
@@ -12,13 +11,13 @@ public final class SelectionClipboard {
     private Location copyOffset;
 
     private int rotation;
-    private ClipboardDirection flip;
+    private ClipboardDirection.Cardinal flip;
 
     public SelectionClipboard(final Selection selection) {
         this.selection = selection;
 
         this.rotation = 0;
-        this.flip = ClipboardDirection.None;
+        this.flip = ClipboardDirection.Cardinal.None;
     }
 
     public final void copy(final Location location) {
@@ -40,7 +39,7 @@ public final class SelectionClipboard {
         this.rotation = amount;
     }
 
-    public final void flip(final ClipboardDirection direction) {
+    public final void flip(final ClipboardDirection.Cardinal direction) {
         this.flip = direction;
     }
 }
