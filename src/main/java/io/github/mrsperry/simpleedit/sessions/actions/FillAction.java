@@ -11,8 +11,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.util.Vector;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 public final class FillAction extends Action {
     private FillAction(final SelectionHistory history, final Location center, final int radius, final List<Pair<Material, Integer>> materials) {
@@ -23,12 +21,12 @@ public final class FillAction extends Action {
 
         final Vector centerVector = center.toVector();
         final List<Block> blocks = new ArrayList<>();
-        final Queue<Block> frontier = new PriorityQueue<>();
+        final List<Block> frontier = new ArrayList<>();
         frontier.add(world.getBlockAt(center));
 
         // Breadth-first search
         while (!frontier.isEmpty()) {
-            final Block current = frontier.poll();
+            final Block current = frontier.remove(0);
 
             final List<Block> neighbors = Lists.newArrayList(
                     current.getRelative(BlockFace.NORTH),
@@ -37,36 +35,33 @@ public final class FillAction extends Action {
                     current.getRelative(BlockFace.WEST)
             );
 
-            for (final Block block : neighbors) {
-                if (blocks.contains(block)) {
+            for (final Block neighbor : neighbors) {
+                if (blocks.contains(neighbor)) {
                     continue;
                 }
 
-                if (block.getType().isSolid()) {
+                if (neighbor.getType().isSolid()) {
                     continue;
                 }
 
-                if (block.getLocation().toVector().distance(centerVector) > radius) {
+                if (neighbor.getLocation().toVector().distance(centerVector) > radius) {
                     continue;
                 }
 
-                blocks.add(block);
-                frontier.add(block);
-            }
-        }
+                blocks.add(neighbor);
+                frontier.add(neighbor);
 
-        // Add all non-solid blocks below the current blocks
-        for (final Block block : blocks) {
-            final int yLevel = block.getY();
+                // Add all non-solid blocks below the current block
+                final int yLevel = current.getY();
+                for (int y = yLevel - 1; y >= 0; y--) {
+                    final Block below = current.getRelative(0, -(yLevel - y), 0);
 
-            for (int y = yLevel - 1; y >= 0; y--) {
-                final Block current = block.getRelative(0, -(yLevel - y), 0);
+                    if (below.getType().isSolid()) {
+                        break;
+                    }
 
-                if (current.getType().isSolid()) {
-                    break;
+                    blocks.add(below);
                 }
-
-                blocks.add(current);
             }
         }
 
