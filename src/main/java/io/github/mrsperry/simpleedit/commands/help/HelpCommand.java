@@ -33,7 +33,8 @@ public final class HelpCommand extends BaseCommand {
                 "fill - flood fills an area based on the specified radius",
                 "cyl - creates a cylinder (add '-h' for additional height) out of the specified materials",
                 "undo - undoes your previous actions",
-                "redo - redoes your previous actions"
+                "redo - redoes your previous actions",
+                "rotate - rotates your selection by a specified number of degrees"
         ));
     }
 

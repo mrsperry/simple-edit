@@ -2,12 +2,10 @@ package io.github.mrsperry.simpleedit.sessions.actions;
 
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.sessions.selections.SelectionHistory;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-
 import java.util.*;
 
 public final class PasteAction extends Action {

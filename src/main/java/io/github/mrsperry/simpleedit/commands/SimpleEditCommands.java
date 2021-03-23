@@ -35,6 +35,7 @@ public final class SimpleEditCommands implements TabExecutor {
         this.commands.put("cyl", new CylCommand());
         this.commands.put("undo", new UndoCommand());
         this.commands.put("redo", new RedoCommand());
+        this.commands.put("rotate", new RotateCommand());
     }
 
     private String[] convertArgs(final Command command, String[] args) {

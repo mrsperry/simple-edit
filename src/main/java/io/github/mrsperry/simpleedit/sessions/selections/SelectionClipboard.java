@@ -37,6 +37,21 @@ public final class SelectionClipboard {
 
     public final void rotate(final int amount) {
         this.rotation = amount;
+
+        final int length = this.blocks.length;
+        final int height = this.blocks[0].length;
+        final int width = this.blocks[0][0].length;
+
+        final Block[][][] copy = new Block[width][height][length];
+        for (int y = 0; y < this.blocks[0].length; y++) {
+            for (int x = 0; x < length; x++) {
+                for (int z = width - 1; z >= 0; z--) {
+                    copy[width - z - 1][y][x] = this.blocks[x][y][z];
+                }
+            }
+        }
+
+        this.blocks = copy;
     }
 
     public final void flip(final ClipboardDirection.Cardinal direction) {
