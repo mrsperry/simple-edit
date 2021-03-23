@@ -8,6 +8,8 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.util.StringUtil;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,5 +82,9 @@ public final class Utils {
         } catch (final Exception ex) {
             return null;
         }
+    }
+
+    public static String formatNumber(final int number) {
+        return String.format("%,d", number);
     }
 }
