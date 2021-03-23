@@ -1,10 +1,9 @@
 package io.github.mrsperry.simpleedit.commands.selection;
 
-import io.github.mrsperry.simpleedit.Utils;
 import io.github.mrsperry.simpleedit.commands.BaseCommand;
-import io.github.mrsperry.simpleedit.sessions.Session;
+import io.github.mrsperry.simpleedit.items.Wand;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
-import org.bukkit.ChatColor;
+import io.github.mrsperry.simpleedit.sessions.selections.Selection;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -24,10 +23,9 @@ public final class PositionCommand extends BaseCommand {
         final Player player = (Player) sender;
         final Location location = player.getLocation();
 
-        final Session session = SessionManager.getSession(player.getUniqueId());
-        session.getSelection().getPosition().setPosition(isFirstPosition, location);
+        final Selection selection = SessionManager.getSession(player.getUniqueId()).getSelection();
+        selection.getPosition().setPosition(isFirstPosition, location);
 
-        final String position = isFirstPosition ? "First" : "Second";
-        player.sendMessage(ChatColor.LIGHT_PURPLE + position + " position set to (" + Utils.coordinateString(location) + ")");
+        player.sendMessage(Wand.getMessage(isFirstPosition, location, selection.getCubeSelection().size()));
     }
 }

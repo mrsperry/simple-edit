@@ -2,12 +2,9 @@ package io.github.mrsperry.simpleedit.items;
 
 import io.github.mrsperry.simpleedit.SimpleEdit;
 import io.github.mrsperry.simpleedit.Utils;
-import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
-import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import io.github.mrsperry.simpleedit.sessions.selections.Selection;
+import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -67,13 +64,23 @@ public final class Wand implements Listener {
         }
         final Location location = block.getLocation();
 
-        final Session session = SessionManager.getSession(player.getUniqueId());
-        session.getSelection().getPosition().setPosition(isFirstPosition, location);
+        final Selection selection = SessionManager.getSession(player.getUniqueId()).getSelection();
+        selection.getPosition().setPosition(isFirstPosition, location);
 
-        final String position = isFirstPosition ? "First" : "Second";
-        player.sendMessage(ChatColor.LIGHT_PURPLE + position + " position set to (" + Utils.coordinateString(location) + ")");
+        player.sendMessage(Wand.getMessage(isFirstPosition, location, selection.getCubeSelection().size()));
 
         event.setCancelled(true);
+    }
+
+    public static String getMessage(final boolean isFirstPosition, final Location location, final int affected) {
+        final String position = isFirstPosition ? "First" : "Second";
+        String message = position + " position set to (" + Utils.coordinateString(location) + ")";
+
+        if (affected != 0) {
+            message += " (" + Utils.formatNumber(affected) + ")";
+        }
+
+        return ChatColor.LIGHT_PURPLE + message;
     }
 
     public static Material getWandMaterial() {
