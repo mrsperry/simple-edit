@@ -8,7 +8,7 @@ import java.util.List;
 
 public final class SelectionOutline {
     private final Selection selection;
-    private long updateRate;
+    private final long updateRate;
 
     private boolean isDrawing;
     private int drawTaskID;
