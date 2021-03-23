@@ -1,4 +1,4 @@
-package io.github.mrsperry.simpleedit.commands.help;
+package io.github.mrsperry.simpleedit.commands;
 
 import com.google.common.collect.Lists;
 import io.github.mrsperry.simpleedit.commands.BaseCommand;
