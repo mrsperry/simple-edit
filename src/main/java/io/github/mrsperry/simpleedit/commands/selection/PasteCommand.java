@@ -34,7 +34,6 @@ public final class PasteCommand extends BaseCommand {
 
         final Player player = (Player) sender;
         final Session session = SessionManager.getSession(player.getUniqueId());
-        session.getSelection().getClipboard().rotate(90);
         session.getSelection().getClipboard().paste(player.getLocation(), ignoreAir);
 
         player.sendMessage(ChatColor.LIGHT_PURPLE + "Selection pasted");
