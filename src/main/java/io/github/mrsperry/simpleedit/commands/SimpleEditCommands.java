@@ -86,7 +86,7 @@ public final class SimpleEditCommands implements TabExecutor {
      * @param usage  The proper command usage
      */
     public static void usage(final CommandSender sender, final String usage) {
-        sender.sendMessage(ChatColor.RED + "Usage: /" + (SimpleEditCommands.worldEditCommands ? "/" : "simpleedit") + " " + usage);
+        sender.sendMessage(ChatColor.RED + "Usage: /" + (SimpleEditCommands.worldEditCommands ? "/" : "simpleedit ") + usage);
     }
 
     /**
