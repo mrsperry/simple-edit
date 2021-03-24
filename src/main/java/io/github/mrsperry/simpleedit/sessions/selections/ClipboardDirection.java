@@ -1,5 +1,8 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public final class ClipboardDirection {
     public static Cardinal getDirection(final double pitch, final double yaw) {
         if (pitch < -45) {
@@ -21,6 +24,15 @@ public final class ClipboardDirection {
         } else {
             return Cardinal.South;
         }
+    }
+
+    public static List<String> getCardinalNames() {
+        final List<String> cardinals = new ArrayList<>();
+        for (final Cardinal cardinal : Cardinal.values()) {
+            cardinals.add(cardinal.toString().toLowerCase());
+        }
+
+        return cardinals;
     }
 
     public enum Cardinal {

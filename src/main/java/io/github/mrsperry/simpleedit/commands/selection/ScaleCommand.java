@@ -95,12 +95,7 @@ public final class ScaleCommand extends BaseCommand {
         if (args.length == 2) {
             return Lists.newArrayList("amount");
         } else if (args.length == 3) {
-            final List<String> cardinals = new ArrayList<>();
-            for (final ClipboardDirection.Cardinal cardinal : ClipboardDirection.Cardinal.values()) {
-                cardinals.add(cardinal.toString().toLowerCase());
-            }
-
-            return StringUtil.copyPartialMatches(args[2], cardinals, new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[2], ClipboardDirection.getCardinalNames(), new ArrayList<>());
         }
 
         return super.onTabComplete(args);
