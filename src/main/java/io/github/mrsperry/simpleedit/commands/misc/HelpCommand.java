@@ -1,6 +1,8 @@
-package io.github.mrsperry.simpleedit.commands;
+package io.github.mrsperry.simpleedit.commands.misc;
 
 import com.google.common.collect.Lists;
+import io.github.mrsperry.simpleedit.commands.BaseCommand;
+import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
