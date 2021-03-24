@@ -84,4 +84,12 @@ public final class Utils {
     public static String formatNumber(final int number) {
         return String.format("%,d", number);
     }
+
+    public static String capitalize(final String string) {
+        if (string.length() == 0) {
+            return string;
+        }
+
+        return string.substring(0, 1).toUpperCase() + string.substring(1).toLowerCase();
+    }
 }

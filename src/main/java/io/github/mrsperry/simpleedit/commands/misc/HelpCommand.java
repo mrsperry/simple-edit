@@ -36,7 +36,8 @@ public final class HelpCommand extends BaseCommand {
                 "redo - redoes your previous actions",
                 "rotate - rotates your selection by a specified number of degrees",
                 "naturalize - replaces the top layer of stone with grass and two layers of stone below that with dirt if available (add '-s' to include stone not visible to the sky)",
-                "up - moves you up a specified number of blocks and places a glass block below you if you would fall"
+                "up - moves you up a specified number of blocks and places a glass block below you if you would fall",
+                "scale - expands your selection in the direction you're looking (or specified) by the specified amount; negative values can be used to shrink"
         ));
     }
 

@@ -43,6 +43,7 @@ public final class SimpleEditCommands implements TabExecutor {
         this.commands.put("rotate", new RotateCommand());
         this.commands.put("naturalize", new NaturalizeCommand());
         this.commands.put("up", new UpCommand());
+        this.commands.put("scale", new ScaleCommand());
     }
 
     /**
