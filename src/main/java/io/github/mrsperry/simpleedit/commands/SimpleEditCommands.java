@@ -2,6 +2,7 @@ package io.github.mrsperry.simpleedit.commands;
 
 import io.github.mrsperry.simpleedit.commands.items.WandCommand;
 import io.github.mrsperry.simpleedit.commands.misc.HelpCommand;
+import io.github.mrsperry.simpleedit.commands.misc.UpCommand;
 import io.github.mrsperry.simpleedit.commands.selection.*;
 import io.github.mrsperry.simpleedit.commands.selection.actions.*;
 import org.bukkit.ChatColor;
@@ -41,6 +42,7 @@ public final class SimpleEditCommands implements TabExecutor {
         this.commands.put("redo", new RedoCommand());
         this.commands.put("rotate", new RotateCommand());
         this.commands.put("naturalize", new NaturalizeCommand());
+        this.commands.put("up", new UpCommand());
     }
 
     /**
