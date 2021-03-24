@@ -9,6 +9,13 @@ public final class Session {
         this.selection = new Selection();
     }
 
+    public static Session deserialize(final String[] data) {
+        final Session session = new Session();
+        session.setSelection(Selection.deserialize(data[0]));
+
+        return session;
+    }
+
     public final Selection getSelection() {
         return this.selection;
     }
@@ -19,12 +26,5 @@ public final class Session {
 
     public final String serialize() {
         return this.selection.serialize();
-    }
-
-    public static Session deserialize(final String[] data) {
-        final Session session = new Session();
-        session.setSelection(Selection.deserialize(data[0]));
-
-        return session;
     }
 }

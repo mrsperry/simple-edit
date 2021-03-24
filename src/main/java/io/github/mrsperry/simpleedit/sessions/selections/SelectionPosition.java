@@ -32,8 +32,8 @@ public final class SelectionPosition {
             final int z1 = this.pos1.getBlockZ();
             final int z2 = this.pos2.getBlockZ();
 
-            this.start = new int[] { Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2) };
-            this.end = new int[] { Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2) };
+            this.start = new int[]{Math.min(x1, x2), Math.min(y1, y2), Math.min(z1, z2)};
+            this.end = new int[]{Math.max(x1, x2), Math.max(y1, y2), Math.max(z1, z2)};
         }
 
         this.selection.getOutline().refresh();

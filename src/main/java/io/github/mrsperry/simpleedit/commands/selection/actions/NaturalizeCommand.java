@@ -8,6 +8,7 @@ import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import io.github.mrsperry.simpleedit.sessions.actions.NaturalizeAction;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 import java.util.List;
 
 public final class NaturalizeCommand extends BaseCommand {

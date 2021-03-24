@@ -3,6 +3,7 @@ package io.github.mrsperry.simpleedit.sessions.selections;
 import io.github.mrsperry.simpleedit.SimpleEdit;
 import io.github.mrsperry.simpleedit.Utils;
 import org.bukkit.block.Block;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -19,6 +20,16 @@ public final class Selection {
         this.history = new SelectionHistory();
         this.position = new SelectionPosition(this);
         this.outline = new SelectionOutline(this, SimpleEdit.getInstance().getConfig().getLong("outline-update-rate", 10));
+    }
+
+    public static Selection deserialize(final String data) {
+        final Selection selection = new Selection();
+        final String[] positions = data.split("\\|");
+
+        selection.position.setPosition(true, Utils.parseLocation(positions[0]));
+        selection.position.setPosition(false, Utils.parseLocation(positions[1]));
+
+        return selection;
     }
 
     public final List<Block> getCubeSelection() {
@@ -46,8 +57,8 @@ public final class Selection {
         }
 
         this.runSelectionConsumer((int[] coords) -> {
-           final Block block = position.getWorld().getBlockAt(coords[0], coords[1], coords[2]);
-           blocks[coords[0] - start[0]][coords[1] - start[1]][coords[2] - start[2]] = block;
+            final Block block = position.getWorld().getBlockAt(coords[0], coords[1], coords[2]);
+            blocks[coords[0] - start[0]][coords[1] - start[1]][coords[2] - start[2]] = block;
         });
 
         return blocks;
@@ -72,7 +83,7 @@ public final class Selection {
             final boolean zFace = (coords[2] == start[2] || coords[2] == end[2]);
 
             if (xFace || yFace || zFace) {
-                final boolean[] faces = new boolean[] { xFace, yFace, zFace };
+                final boolean[] faces = new boolean[]{xFace, yFace, zFace};
 
                 if (predicate == null || predicate.test(faces)) {
                     blocks.add(this.position.getWorld().getBlockAt(coords[0], coords[1], coords[2]));
@@ -104,7 +115,7 @@ public final class Selection {
         for (int x = start[0]; x <= end[0]; x++) {
             for (int y = start[1]; y <= end[1]; y++) {
                 for (int z = start[2]; z <= end[2]; z++) {
-                    consumer.accept(new int[] { x, y, z });
+                    consumer.accept(new int[]{x, y, z});
                 }
             }
         }
@@ -112,16 +123,6 @@ public final class Selection {
 
     public final String serialize() {
         return Utils.locationString(this.position.getPos1()) + "|" + Utils.locationString(this.position.getPos2());
-    }
-
-    public static Selection deserialize(final String data) {
-        final Selection selection = new Selection();
-        final String[] positions = data.split("\\|");
-
-        selection.position.setPosition(true, Utils.parseLocation(positions[0]));
-        selection.position.setPosition(false, Utils.parseLocation(positions[1]));
-
-        return selection;
     }
 
     public final SelectionClipboard getClipboard() {

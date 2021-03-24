@@ -4,6 +4,7 @@ import io.github.mrsperry.simpleedit.SimpleEdit;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.scheduler.BukkitRunnable;
+
 import java.util.List;
 
 public final class SelectionOutline {

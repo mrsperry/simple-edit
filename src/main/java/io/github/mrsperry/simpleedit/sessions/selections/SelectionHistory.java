@@ -1,6 +1,7 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
 import io.github.mrsperry.simpleedit.sessions.actions.Action;
+
 import java.util.Stack;
 
 public final class SelectionHistory {

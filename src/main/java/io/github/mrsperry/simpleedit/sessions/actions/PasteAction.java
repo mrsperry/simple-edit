@@ -6,7 +6,11 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class PasteAction extends Action {
     private PasteAction(final SelectionHistory history, final Location origin, final boolean ignoreAir, final Block[][][] blocks) {

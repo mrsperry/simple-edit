@@ -1,11 +1,9 @@
 package io.github.mrsperry.simpleedit.commands;
 
 import com.google.common.collect.Lists;
-import io.github.mrsperry.simpleedit.commands.BaseCommand;
-import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

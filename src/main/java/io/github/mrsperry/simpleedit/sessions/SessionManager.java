@@ -2,7 +2,9 @@ package io.github.mrsperry.simpleedit.sessions;
 
 import io.github.mrsperry.simpleedit.SimpleEdit;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -57,6 +59,7 @@ public final class SessionManager {
 
     /**
      * Gets a player's session or creates a new one if it could not be found
+     *
      * @param id The UUID of the player
      * @return The player's session
      */
@@ -80,7 +83,7 @@ public final class SessionManager {
 
         for (final UUID uuid : SessionManager.sessions.keySet()) {
             final String id = uuid.toString();
-            final File file = new File(path.toString() + "/" + id+ ".session");
+            final File file = new File(path.toString() + "/" + id + ".session");
 
             try {
                 if (!file.exists()) {

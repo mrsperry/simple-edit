@@ -8,7 +8,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 import org.bukkit.util.StringUtil;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public final class SimpleEditCommands implements TabExecutor {
     private static boolean worldEditCommands;
@@ -36,6 +40,59 @@ public final class SimpleEditCommands implements TabExecutor {
         this.commands.put("redo", new RedoCommand());
         this.commands.put("rotate", new RotateCommand());
         this.commands.put("naturalize", new NaturalizeCommand());
+    }
+
+    /**
+     * Sent when there are too few arguments for a command
+     *
+     * @param sender The command sender
+     * @param usage  The proper command usage
+     */
+    public static void tooFewArguments(final CommandSender sender, final String usage) {
+        sender.sendMessage(ChatColor.RED + "Too few arguments!");
+        SimpleEditCommands.usage(sender, usage);
+    }
+
+    /**
+     * Sent when there are too many arguments for a command
+     *
+     * @param sender The command sender
+     * @param usage  The proper command usage
+     */
+    public static void tooManyArguments(final CommandSender sender, final String usage) {
+        sender.sendMessage(ChatColor.RED + "Too many arguments!");
+        SimpleEditCommands.usage(sender, usage);
+    }
+
+    /**
+     * Sent when there is an invalid argument for a command
+     *
+     * @param sender The command sender
+     * @param usage  The proper command usage
+     * @param arg    The invalid argument
+     */
+    public static void invalidArgument(final CommandSender sender, final String usage, final String arg) {
+        sender.sendMessage(ChatColor.RED + "Invalid argument: " + arg);
+        SimpleEditCommands.usage(sender, usage);
+    }
+
+    /**
+     * Sent when the correct usage of a command needs to be displayed
+     *
+     * @param sender The command sender
+     * @param usage  The proper command usage
+     */
+    public static void usage(final CommandSender sender, final String usage) {
+        sender.sendMessage(ChatColor.RED + "Usage: /" + (SimpleEditCommands.worldEditCommands ? "/" : "simpleedit") + " " + usage);
+    }
+
+    /**
+     * Sent when a console sender tries to use a player only command
+     *
+     * @param sender The command sender
+     */
+    public static void mustBePlayer(final CommandSender sender) {
+        sender.sendMessage(ChatColor.RED + "You must be a player to use this command!");
     }
 
     private String[] convertArgs(final Command command, String[] args) {
@@ -83,53 +140,5 @@ public final class SimpleEditCommands implements TabExecutor {
 
     public final Map<String, BaseCommand> getCommandMap() {
         return this.commands;
-    }
-
-    /**
-     * Sent when there are too few arguments for a command
-     * @param sender The command sender
-     * @param usage The proper command usage
-     */
-    public static void tooFewArguments(final CommandSender sender, final String usage) {
-        sender.sendMessage(ChatColor.RED + "Too few arguments!");
-        SimpleEditCommands.usage(sender, usage);
-    }
-
-    /**
-     * Sent when there are too many arguments for a command
-     * @param sender The command sender
-     * @param usage The proper command usage
-     */
-    public static void tooManyArguments(final CommandSender sender, final String usage) {
-        sender.sendMessage(ChatColor.RED + "Too many arguments!");
-        SimpleEditCommands.usage(sender, usage);
-    }
-
-    /**
-     * Sent when there is an invalid argument for a command
-     * @param sender The command sender
-     * @param usage The proper command usage
-     * @param arg The invalid argument
-     */
-    public static void invalidArgument(final CommandSender sender, final String usage, final String arg) {
-        sender.sendMessage(ChatColor.RED + "Invalid argument: " + arg);
-        SimpleEditCommands.usage(sender, usage);
-    }
-
-    /**
-     * Sent when the correct usage of a command needs to be displayed
-     * @param sender The command sender
-     * @param usage The proper command usage
-     */
-    public static void usage(final CommandSender sender, final String usage) {
-        sender.sendMessage(ChatColor.RED + "Usage: /" + (SimpleEditCommands.worldEditCommands ? "/" : "simpleedit") + " " +  usage);
-    }
-
-    /**
-     * Sent when a console sender tries to use a player only command
-     * @param sender The command sender
-     */
-    public static void mustBePlayer(final CommandSender sender) {
-        sender.sendMessage(ChatColor.RED + "You must be a player to use this command!");
     }
 }

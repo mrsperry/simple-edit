@@ -8,6 +8,7 @@ import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
 import java.util.List;
 
 public final class PasteCommand extends BaseCommand {

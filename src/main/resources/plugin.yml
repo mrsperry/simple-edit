@@ -6,4 +6,4 @@ commands:
   simpleedit:
     description: "All encompassing command for SimpleEdit"
     usage: "/simpleedit <action | help>"
-    aliases: ["se"]
+    aliases: [ "se" ]

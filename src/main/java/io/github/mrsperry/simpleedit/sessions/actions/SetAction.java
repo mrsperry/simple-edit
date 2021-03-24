@@ -5,6 +5,7 @@ import io.github.mrsperry.simpleedit.sessions.selections.Selection;
 import io.github.mrsperry.simpleedit.sessions.selections.SelectionHistory;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+
 import java.util.List;
 
 public final class SetAction extends Action {

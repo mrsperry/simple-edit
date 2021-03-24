@@ -4,7 +4,10 @@ import io.github.mrsperry.simpleedit.SimpleEdit;
 import io.github.mrsperry.simpleedit.Utils;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import io.github.mrsperry.simpleedit.sessions.selections.Selection;
-import org.bukkit.*;
+import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -13,6 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
+
 import java.util.logging.Logger;
 
 public final class Wand implements Listener {
@@ -35,6 +39,21 @@ public final class Wand implements Listener {
         }
 
         this.creativeOnly = config.getBoolean("creative-only-wand", true);
+    }
+
+    public static String getMessage(final boolean isFirstPosition, final Location location, final int affected) {
+        final String position = isFirstPosition ? "First" : "Second";
+        String message = position + " position set to (" + Utils.coordinateString(location) + ")";
+
+        if (affected != 0) {
+            message += " (" + Utils.formatNumber(affected) + ")";
+        }
+
+        return ChatColor.LIGHT_PURPLE + message;
+    }
+
+    public static Material getWandMaterial() {
+        return Wand.wandMaterial;
     }
 
     @EventHandler
@@ -70,20 +89,5 @@ public final class Wand implements Listener {
         player.sendMessage(Wand.getMessage(isFirstPosition, location, selection.getCubeSelection().size()));
 
         event.setCancelled(true);
-    }
-
-    public static String getMessage(final boolean isFirstPosition, final Location location, final int affected) {
-        final String position = isFirstPosition ? "First" : "Second";
-        String message = position + " position set to (" + Utils.coordinateString(location) + ")";
-
-        if (affected != 0) {
-            message += " (" + Utils.formatNumber(affected) + ")";
-        }
-
-        return ChatColor.LIGHT_PURPLE + message;
-    }
-
-    public static Material getWandMaterial() {
-        return Wand.wandMaterial;
     }
 }

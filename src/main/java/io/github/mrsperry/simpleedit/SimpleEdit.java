@@ -10,12 +10,17 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.Map;
 
 public final class SimpleEdit extends JavaPlugin implements Listener {
     private static SimpleEdit instance;
+
+    public static SimpleEdit getInstance() {
+        return SimpleEdit.instance;
+    }
 
     @Override
     public final void onEnable() {
@@ -73,9 +78,5 @@ public final class SimpleEdit extends JavaPlugin implements Listener {
     @Override
     public final void onDisable() {
         SessionManager.save();
-    }
-
-    public static SimpleEdit getInstance() {
-        return SimpleEdit.instance;
     }
 }

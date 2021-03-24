@@ -1,15 +1,12 @@
 package io.github.mrsperry.simpleedit;
 
 import io.github.mrsperry.mcutils.classes.Pair;
-import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.util.StringUtil;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
