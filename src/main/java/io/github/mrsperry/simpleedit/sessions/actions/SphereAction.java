@@ -13,11 +13,11 @@ import java.util.List;
 public final class SphereAction extends Action {
     private SphereAction(final SelectionHistory history, final Location center, final int radius, final List<Pair<Material, Integer>> materials) {
         final Location blockCenter = center.getBlock().getLocation().add(0.5, 0.5, 0.5);
-        final Vector centerVector = blockCenter.clone().toVector();
+        final Vector centerVector = blockCenter.toVector();
 
         final List<Block> blocks = new ArrayList<>();
         for (int x = -radius; x <= radius; x++) {
-            for (int y = -radius; y < radius; y++) {
+            for (int y = -radius; y <= radius; y++) {
                 for (int z = -radius; z <= radius; z++) {
                     final Location location = blockCenter.clone().add(x, y, z);
 
