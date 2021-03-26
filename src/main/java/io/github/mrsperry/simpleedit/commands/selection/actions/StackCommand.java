@@ -6,15 +6,10 @@ import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.sessions.Session;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
-import io.github.mrsperry.simpleedit.sessions.actions.PasteAction;
+import io.github.mrsperry.simpleedit.sessions.actions.StackAction;
 import io.github.mrsperry.simpleedit.sessions.selections.ClipboardDirection;
-import io.github.mrsperry.simpleedit.sessions.selections.Selection;
-import io.github.mrsperry.simpleedit.sessions.selections.SelectionHistory;
-import io.github.mrsperry.simpleedit.sessions.selections.SelectionPosition;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.block.Block;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.util.StringUtil;
@@ -36,91 +31,59 @@ public final class StackCommand extends BaseCommand {
         final Player player = (Player) sender;
         final Location location = player.getLocation();
 
-        int amount = 1;
         boolean ignoreAir = false;
+        int amount = 1;
         ClipboardDirection.Cardinal direction = ClipboardDirection.getDirection(location.getPitch(), location.getYaw());
 
-        if (args.length >= 2) {
+        String amountString = null;
+        String directionString = null;
+
+        if (args.length != 1) {
             if (args[1].equalsIgnoreCase("-a")) {
                 ignoreAir = true;
             }
+        }
 
-            final String amountString = ignoreAir ? args[2] : args[1];
+        if (args.length == 2) {
+            if (!ignoreAir) {
+                amountString = args[1];
+            }
+        } else if (args.length == 3) {
+            amountString = args[ignoreAir ? 2 : 1];
+
+            if (!ignoreAir) {
+                directionString = args[2];
+            }
+        } else if (args.length == 4) {
+            if (!ignoreAir) {
+                SimpleEditCommands.invalidArgument(sender, this.getUsage(), args[1]);
+                return;
+            }
+
+            amountString = args[2];
+            directionString = args[3];
+        }
+
+        if (amountString != null) {
             try {
                 amount = Integer.parseInt(amountString);
             } catch (final IllegalArgumentException ex) {
                 SimpleEditCommands.invalidArgument(sender, this.getUsage(), amountString);
                 return;
             }
+        }
 
-            if (args.length >= 3) {
-                final String directionString = ignoreAir ? args[3] : args[2];
-                try {
-                    direction = ClipboardDirection.Cardinal.valueOf(Utils.capitalize(directionString));
-                } catch (final IllegalArgumentException ex) {
-                    SimpleEditCommands.invalidArgument(sender, this.getUsage(), directionString);
-                    return;
-                }
+        if (directionString != null) {
+            try {
+                direction = ClipboardDirection.Cardinal.valueOf(Utils.capitalize(directionString));
+            } catch (final IllegalArgumentException ex) {
+                SimpleEditCommands.invalidArgument(sender, this.getUsage(), directionString);
+                return;
             }
         }
 
-        if (amount <= 0) {
-            player.sendMessage(ChatColor.RED + "Amount cannot be less than 1");
-            SimpleEditCommands.usage(sender, this.getUsage());
-            return;
-        }
-
         final Session session = SessionManager.getSession(player.getUniqueId());
-        final Selection selection = session.getSelection();
-        final SelectionHistory history = selection.getHistory();
-        final SelectionPosition position = selection.getPosition();
-
-        final World world = position.getWorld();
-        final int[] startCoords = position.getStart();
-        final int[] endCoords = position.getEnd();
-        final Location start = new Location(world, startCoords[0], startCoords[1], startCoords[2]);
-
-        final Block[][][] blocks = selection.getCubeSelectionArray();
-
-        int coord = 0;
-        boolean negative = false;
-
-        switch (direction) {
-            case Up:
-                coord = 1;
-                break;
-            case Down:
-                coord = 1;
-                negative = true;
-                break;
-            // -Z
-            case North:
-                coord = 2;
-                negative = true;
-                break;
-            // +Z
-            case South:
-                coord = 2;
-                break;
-            // +X
-            case East:
-                coord = 0;
-                break;
-            // -X
-            case West:
-                coord = 0;
-                negative = true;
-                break;
-        }
-
-        int offset = 1 + (endCoords[coord] - startCoords[coord]);
-        if (negative) {
-            offset *= -1;
-        }
-
-        for (int index = 1; index < amount + 1; index++) {
-            PasteAction.run(history, start.add(coord == 0 ? offset : 0, coord == 1 ? offset : 0, coord == 2 ? offset : 0), ignoreAir, blocks);
-        }
+        StackAction.run(session.getSelection(), ignoreAir, amount, direction);
 
         player.sendMessage(ChatColor.LIGHT_PURPLE + "Selection stacked " + direction.toString().toLowerCase() + " " + amount + " time" + (amount != 1 ? "s" : ""));
     }
