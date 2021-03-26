@@ -106,10 +106,6 @@ public abstract class Action {
                     continue;
                 }
 
-                if (!neighbor.getType().isAir()) {
-                    continue;
-                }
-
                 if (neighbor.getLocation().toVector().distance(centerVector) > radius) {
                     continue;
                 }

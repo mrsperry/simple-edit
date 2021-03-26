@@ -12,8 +12,11 @@ import java.util.function.Predicate;
 
 public final class FillAction extends Action {
     private FillAction(final SelectionHistory history, final Location center, final int radius, final List<Pair<Material, Integer>> materials) {
+        final int centerY = center.getBlock().getY();
+
         final List<Predicate<Block>> predicates = Lists.newArrayList(
-                (final Block block) -> block.getY() > center.getY()
+                (final Block block) -> block.getY() > centerY,
+                (final Block block) -> !block.getType().isAir()
         );
 
         super.run(history, super.searchFloodFill(center, radius, predicates), super.getMaterialWeights(materials));
