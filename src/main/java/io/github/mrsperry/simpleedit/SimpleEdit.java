@@ -2,6 +2,7 @@ package io.github.mrsperry.simpleedit;
 
 import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
+import io.github.mrsperry.simpleedit.items.Brushes;
 import io.github.mrsperry.simpleedit.items.Wand;
 import io.github.mrsperry.simpleedit.sessions.SessionManager;
 import org.bukkit.Server;
@@ -9,6 +10,7 @@ import org.bukkit.command.CommandMap;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Constructor;
@@ -27,7 +29,10 @@ public final class SimpleEdit extends JavaPlugin implements Listener {
         SimpleEdit.instance = this;
 
         this.saveDefaultConfig();
-        this.getServer().getPluginManager().registerEvents(new Wand(this), this);
+
+        final PluginManager manager = this.getServer().getPluginManager();
+        manager.registerEvents(new Wand(this), this);
+        manager.registerEvents(new Brushes(), this);
 
         final boolean worldEditCommands = this.getConfig().getBoolean("world-edit-commands", true);
         final SimpleEditCommands executor = new SimpleEditCommands(worldEditCommands);

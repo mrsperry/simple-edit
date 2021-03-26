@@ -40,7 +40,8 @@ public final class HelpCommand extends BaseCommand {
                 "scale - expands your selection in the direction you're looking (or specified) by the specified amount; negative values can be used to shrink",
                 "stack - pastes your selection a specified number of times in the specified direction",
                 "drain - removes liquids in the specified radius (use '-l' to drain waterlogged blocks)",
-                "sphere - creates a sphere ('-h' for hollow) out of the specified materials"
+                "sphere - creates a sphere ('-h' for hollow) out of the specified materials",
+                "brush - used to create various types of brushes"
         ));
     }
 

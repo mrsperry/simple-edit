@@ -1,5 +1,6 @@
 package io.github.mrsperry.simpleedit.commands;
 
+import io.github.mrsperry.simpleedit.commands.items.BrushCommand;
 import io.github.mrsperry.simpleedit.commands.items.WandCommand;
 import io.github.mrsperry.simpleedit.commands.misc.HelpCommand;
 import io.github.mrsperry.simpleedit.commands.misc.UpCommand;
@@ -47,6 +48,7 @@ public final class SimpleEditCommands implements TabExecutor {
         this.commands.put("stack", new StackCommand());
         this.commands.put("drain", new DrainCommand());
         this.commands.put("sphere", new SphereCommand());
+        this.commands.put("brush", new BrushCommand());
     }
 
     /**
