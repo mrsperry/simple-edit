@@ -13,7 +13,7 @@ public final class WandCommand extends BaseCommand {
 
     @Override
     public final void onCommand(final CommandSender sender, final String[] args) {
-        if (super.commandPrerequisites(sender, args, 0, 0)) {
+        if (super.commandPrerequisites(sender, args)) {
             return;
         }
 
