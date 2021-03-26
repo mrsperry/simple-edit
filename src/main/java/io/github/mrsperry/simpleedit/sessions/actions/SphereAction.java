@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class SphereAction extends Action {
-    private SphereAction(final SelectionHistory history, final Location center, final int radius, final List<Pair<Material, Integer>> materials) {
+    private SphereAction(final SelectionHistory history, final Location center, final boolean hollow, final int radius, final List<Pair<Material, Integer>> materials) {
         final Location blockCenter = center.getBlock().getLocation().add(0.5, 0.5, 0.5);
         final Vector centerVector = blockCenter.toVector();
 
@@ -22,9 +22,15 @@ public final class SphereAction extends Action {
                     final Location location = blockCenter.clone().add(x, y, z);
 
                     final double distance = location.toVector().distance(centerVector);
-                    if (distance <= radius + 0.5) {
-                        blocks.add(location.getBlock());
+                    if (distance >= radius + 0.5) {
+                        continue;
                     }
+
+                    if (hollow && distance <= radius - 0.5) {
+                        continue;
+                    }
+
+                    blocks.add(location.getBlock());
                 }
             }
         }
@@ -32,7 +38,7 @@ public final class SphereAction extends Action {
         super.run(history, blocks, super.getMaterialWeights(materials));
     }
 
-    public static void run(final SelectionHistory history, final Location center, final int radius, final List<Pair<Material, Integer>> materials) {
-        new SphereAction(history, center, radius, materials);
+    public static void run(final SelectionHistory history, final Location center, final boolean hollow, final int radius, final List<Pair<Material, Integer>> materials) {
+        new SphereAction(history, center, hollow, radius, materials);
     }
 }
