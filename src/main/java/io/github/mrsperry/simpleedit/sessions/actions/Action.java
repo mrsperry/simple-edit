@@ -1,5 +1,6 @@
 package io.github.mrsperry.simpleedit.sessions.actions;
 
+import com.google.common.collect.Lists;
 import io.github.mrsperry.mcutils.classes.Pair;
 import io.github.mrsperry.simpleedit.SimpleEdit;
 import io.github.mrsperry.simpleedit.sessions.selections.SelectionHistory;
@@ -7,12 +8,15 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public abstract class Action {
     private static final JavaPlugin plugin = SimpleEdit.getInstance();
@@ -72,6 +76,58 @@ public abstract class Action {
                         blocks.add(current);
                     }
                 }
+            }
+        }
+
+        return blocks;
+    }
+
+    protected final List<Block> searchFloodFill(final Location center, final int radius, List<Predicate<Block>> predicates) {
+        final Vector centerVector = center.toVector();
+
+        final List<Block> blocks = new ArrayList<>();
+        final List<Block> frontier = new ArrayList<>();
+        frontier.add(center.getBlock());
+
+        // Breadth-first search
+        while (!frontier.isEmpty()) {
+            final Block current = frontier.remove(0);
+            final List<Block> neighbors = Lists.newArrayList(
+                    current.getRelative(BlockFace.UP),
+                    current.getRelative(BlockFace.DOWN),
+                    current.getRelative(BlockFace.NORTH),
+                    current.getRelative(BlockFace.SOUTH),
+                    current.getRelative(BlockFace.EAST),
+                    current.getRelative(BlockFace.WEST)
+            );
+
+            for (final Block neighbor : neighbors) {
+                if (blocks.contains(neighbor)) {
+                    continue;
+                }
+
+                if (!neighbor.getType().isAir()) {
+                    continue;
+                }
+
+                if (neighbor.getLocation().toVector().distance(centerVector) > radius) {
+                    continue;
+                }
+
+                boolean failedPredicate = false;
+                for (final Predicate<Block> predicate : predicates) {
+                    if (predicate.test(neighbor)) {
+                        failedPredicate = true;
+                        break;
+                    }
+                }
+
+                if (failedPredicate) {
+                    continue;
+                }
+
+                blocks.add(neighbor);
+                frontier.add(neighbor);
             }
         }
 
