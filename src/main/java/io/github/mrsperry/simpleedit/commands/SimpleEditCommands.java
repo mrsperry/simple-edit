@@ -46,6 +46,7 @@ public final class SimpleEditCommands implements TabExecutor {
         this.commands.put("scale", new ScaleCommand());
         this.commands.put("stack", new StackCommand());
         this.commands.put("drain", new DrainCommand());
+        this.commands.put("sphere", new SphereCommand());
     }
 
     /**
