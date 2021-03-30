@@ -1,5 +1,6 @@
 # IntelliJ files
 .idea/
+.run/
 *.iml
 
 # Testing folder
