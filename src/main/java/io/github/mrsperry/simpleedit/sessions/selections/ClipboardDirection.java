@@ -16,13 +16,13 @@ public final class ClipboardDirection {
             return Cardinal.West;
         // Facing negative Z
         } else if (yaw > 135 && yaw <= 225) {
-            return Cardinal.North;
+            return Cardinal.South;
         // Facing positive X
         } else if (yaw > 225 && yaw <= 315) {
             return Cardinal.East;
         // Facing positive Z
         } else {
-            return Cardinal.South;
+            return Cardinal.North;
         }
     }
 
