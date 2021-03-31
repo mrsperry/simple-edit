@@ -8,16 +8,16 @@ public final class SelectionClipboard {
     private final Selection selection;
 
     private Block[][][] blocks;
+    private Location initialOffset;
     private Location copyOffset;
 
+    private boolean initialNorthSouth;
+    private boolean initialEastWest;
     private int rotation;
     private ClipboardDirection.Cardinal flip;
 
     public SelectionClipboard(final Selection selection) {
         this.selection = selection;
-
-        this.rotation = 0;
-        this.flip = ClipboardDirection.Cardinal.None;
     }
 
     public final void copy(final Location location) {
@@ -28,7 +28,13 @@ public final class SelectionClipboard {
         final int y = (int) Math.floor(location.getY()) - start[1];
         final int z = (int) Math.floor(location.getZ()) - start[2];
 
-        this.copyOffset = new Location(location.getWorld(), x, y, z);
+        this.initialOffset = new Location(location.getWorld(), x, y, z);
+        this.copyOffset = this.initialOffset.clone();
+
+        this.initialNorthSouth = z >= 0;
+        this.initialEastWest = x < 0;
+        this.rotation = 0;
+        this.flip = ClipboardDirection.Cardinal.None;
     }
 
     public final void paste(final Location location, final boolean ignoreAir) {
@@ -36,8 +42,6 @@ public final class SelectionClipboard {
     }
 
     public final void rotate(final int amount) {
-        this.rotation = amount;
-
         final int length = this.blocks.length;
         final int height = this.blocks[0].length;
         final int width = this.blocks[0][0].length;
@@ -50,8 +54,48 @@ public final class SelectionClipboard {
                 }
             }
         }
-
         this.blocks = copy;
+
+        this.rotation += 90;
+        if (this.rotation >= 360) {
+            this.rotation = 0;
+        }
+        this.copyOffset = this.initialOffset.clone();
+
+        final boolean northEastOrSouthWest = (this.initialNorthSouth && this.initialEastWest) || (!this.initialNorthSouth && !this.initialEastWest);
+        boolean modifyX = false, modifyZ = false;
+        if (this.rotation == 90) {
+            modifyX = !northEastOrSouthWest;
+            modifyZ = northEastOrSouthWest;
+        } else if (this.rotation == 180) {
+            modifyX = true;
+            modifyZ = true;
+        } else if (this.rotation == 270) {
+            modifyX = northEastOrSouthWest;
+            modifyZ = !northEastOrSouthWest;
+        }
+
+        final boolean invert = length != width && this.rotation != 180;
+        final double x = this.initialOffset.getX();
+        final double z = this.initialOffset.getZ();
+        if (modifyX) {
+            this.copyOffset.setX(-(invert ? z : x) + width - 1);
+
+            if (invert) {
+                this.copyOffset.setZ(x);
+            }
+        }
+        if (modifyZ) {
+            this.copyOffset.setZ(-(invert ? x : z) + length - 1);
+
+            if (invert) {
+                this.copyOffset.setX(z);
+            }
+        }
+
+        if (amount > 90) {
+            this.rotate(amount - 90);
+        }
     }
 
     public final void flip(final ClipboardDirection.Cardinal direction) {
