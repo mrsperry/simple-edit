@@ -7,6 +7,7 @@ import io.github.mrsperry.simpleedit.Utils;
 import io.github.mrsperry.simpleedit.commands.BaseCommand;
 import io.github.mrsperry.simpleedit.commands.SimpleEditCommands;
 import io.github.mrsperry.simpleedit.items.Wand;
+import io.github.mrsperry.simpleedit.items.brushes.CylBrush;
 import io.github.mrsperry.simpleedit.items.brushes.PaintBrush;
 import io.github.mrsperry.simpleedit.items.brushes.PasteBrush;
 import io.github.mrsperry.simpleedit.items.brushes.SphereBrush;
@@ -67,7 +68,7 @@ public final class BrushCommand extends BaseCommand {
             }
 
             PasteBrush.create(player, ignoreAir);
-        } else if (command.equals("paint") || command.equals("sphere")) {
+        } else if (command.equals("paint") || command.equals("cyl") || command.equals("sphere")) {
             final String usage = "brush " + command + " <radius> <mask>[,masks...] [chance%]<material> [materials...]";
 
             if (args.length < 5) {
@@ -113,6 +114,8 @@ public final class BrushCommand extends BaseCommand {
 
             if (command.equals("paint")) {
                 PaintBrush.create(player, radius, masks, materials);
+            } else if (command.equals("cyl")) {
+                CylBrush.create(player, radius, masks, materials);
             } else {
                 SphereBrush.create(player, radius, masks, materials);
             }
@@ -130,7 +133,7 @@ public final class BrushCommand extends BaseCommand {
     @Override
     protected List<String> onTabComplete(final String[] args) {
         if (args.length == 2) {
-            return StringUtil.copyPartialMatches(args[1], Lists.newArrayList("paste", "paint", "sphere"), new ArrayList<>());
+            return StringUtil.copyPartialMatches(args[1], Lists.newArrayList("paste", "paint", "cyl", "sphere"), new ArrayList<>());
         }
 
         if (args[1].equalsIgnoreCase("paste")) {
