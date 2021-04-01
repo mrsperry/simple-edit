@@ -1,5 +1,6 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
+import io.github.mrsperry.mcutils.types.ColorTypes;
 import io.github.mrsperry.simpleedit.SimpleEdit;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -13,6 +14,7 @@ public final class SelectionOutline {
 
     private boolean isDrawing;
     private int drawTaskID;
+    private Color color;
 
     public SelectionOutline(final Selection selection, final long updateRate) {
         this.selection = selection;
@@ -20,6 +22,7 @@ public final class SelectionOutline {
 
         this.isDrawing = false;
         this.drawTaskID = -1;
+        this.color = Color.RED;
     }
 
     public final boolean toggle() {
@@ -61,7 +64,7 @@ public final class SelectionOutline {
                     final Location location = block.getLocation().add(0.5, 0.5, 0.5);
 
                     if (!world.getBlockAt(location).getType().isSolid()) {
-                        world.spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 1, new Particle.DustOptions(Color.RED, 1));
+                        world.spawnParticle(Particle.REDSTONE, location, 1, 0, 0, 0, 1, new Particle.DustOptions(color, 1));
                     }
                 }
             }
@@ -70,5 +73,13 @@ public final class SelectionOutline {
 
     public final boolean isDrawing() {
         return this.isDrawing;
+    }
+
+    public final String getColor() {
+        return ColorTypes.colorToString(this.color).toLowerCase();
+    }
+
+    public final void setColor(final Color color) {
+        this.color = color;
     }
 }

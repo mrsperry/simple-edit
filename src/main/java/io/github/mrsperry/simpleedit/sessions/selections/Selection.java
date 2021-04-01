@@ -1,5 +1,6 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
+import io.github.mrsperry.mcutils.types.ColorTypes;
 import io.github.mrsperry.simpleedit.SimpleEdit;
 import io.github.mrsperry.simpleedit.Utils;
 import org.bukkit.block.Block;
@@ -37,9 +38,12 @@ public final class Selection {
                         selection.position.setPosition(false, Utils.parseLocation(positions[1]));
                         break;
                     case "outline":
-                        if (contents.equals("enabled")) {
+                        final String[] options = contents.split(";");
+                        if (options[0].equals("enabled")) {
                             selection.outline.toggle();
                         }
+
+                        selection.outline.setColor(ColorTypes.stringToColor(options[1]));
                         break;
                 }
             } catch (final Exception ex) {
@@ -141,7 +145,7 @@ public final class Selection {
 
     public final String serialize() {
         return "positions{" + Utils.locationString(this.position.getPos1()) + ";" + Utils.locationString(this.position.getPos2()) + "},"
-                + "outline{" + (this.outline.isDrawing() ? "enabled" : "disabled") + "}";
+                + "outline{" + (this.outline.isDrawing() ? "enabled" : "disabled") + ";" + this.outline.getColor() + "}";
     }
 
     public final SelectionClipboard getClipboard() {
