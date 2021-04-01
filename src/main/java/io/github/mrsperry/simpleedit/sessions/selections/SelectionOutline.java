@@ -71,12 +71,18 @@ public final class SelectionOutline {
         }.runTaskTimer(SimpleEdit.getInstance(), 0, this.updateRate).getTaskId();
     }
 
-    public final boolean isDrawing() {
-        return this.isDrawing;
+    public final String serialize() {
+        return "outline{"
+                + (this.isDrawing ? "enabled" : "disabled") + ";"
+                + ColorTypes.colorToString(this.color).toLowerCase() + "}";
     }
 
-    public final String getColor() {
-        return ColorTypes.colorToString(this.color).toLowerCase();
+    public static void deserialize(final SelectionOutline outline, final String[] data) {
+        if (data[0].equalsIgnoreCase("enabled")) {
+            outline.toggle();
+        }
+
+        outline.setColor(ColorTypes.stringToColor(data[1]));
     }
 
     public final void setColor(final Color color) {

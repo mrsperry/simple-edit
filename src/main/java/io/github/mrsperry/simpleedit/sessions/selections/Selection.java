@@ -1,8 +1,6 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
-import io.github.mrsperry.mcutils.types.ColorTypes;
 import io.github.mrsperry.simpleedit.SimpleEdit;
-import io.github.mrsperry.simpleedit.Utils;
 import org.bukkit.block.Block;
 
 import java.util.ArrayList;
@@ -21,37 +19,6 @@ public final class Selection {
         this.history = new SelectionHistory();
         this.position = new SelectionPosition(this);
         this.outline = new SelectionOutline(this, SimpleEdit.getInstance().getConfig().getLong("outline-update-rate", 10));
-    }
-
-    public static Selection deserialize(final String data) {
-        final Selection selection = new Selection();
-
-        for (String part : data.split("},")) {
-            try {
-                final String type = part.split("\\{")[0];
-                final String contents = part.substring(type.length() + 1).replace("}", "");
-
-                switch (type) {
-                    case "positions":
-                        final String[] positions = contents.split(";");
-                        selection.position.setPosition(true, Utils.parseLocation(positions[0]));
-                        selection.position.setPosition(false, Utils.parseLocation(positions[1]));
-                        break;
-                    case "outline":
-                        final String[] options = contents.split(";");
-                        if (options[0].equals("enabled")) {
-                            selection.outline.toggle();
-                        }
-
-                        selection.outline.setColor(ColorTypes.stringToColor(options[1]));
-                        break;
-                }
-            } catch (final Exception ex) {
-                return null;
-            }
-        }
-
-        return selection;
     }
 
     public final List<Block> getCubeSelection() {
@@ -144,8 +111,31 @@ public final class Selection {
     }
 
     public final String serialize() {
-        return "positions{" + Utils.locationString(this.position.getPos1()) + ";" + Utils.locationString(this.position.getPos2()) + "},"
-                + "outline{" + (this.outline.isDrawing() ? "enabled" : "disabled") + ";" + this.outline.getColor() + "}";
+        return this.position.serialize() + "," + this.outline.serialize();
+    }
+
+    public static Selection deserialize(final String data) {
+        final Selection selection = new Selection();
+
+        for (String part : data.split("},")) {
+            try {
+                final String type = part.split("\\{")[0];
+                final String[] contents = part.substring(type.length() + 1).replace("}", "").split(";");
+
+                switch (type) {
+                    case "positions":
+                        SelectionPosition.deserialize(selection.getPosition(), contents);
+                        break;
+                    case "outline":
+                        SelectionOutline.deserialize(selection.getOutline(), contents);
+                        break;
+                }
+            } catch (final Exception ex) {
+                return null;
+            }
+        }
+
+        return selection;
     }
 
     public final SelectionClipboard getClipboard() {

@@ -1,5 +1,6 @@
 package io.github.mrsperry.simpleedit.sessions.selections;
 
+import io.github.mrsperry.simpleedit.Utils;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -44,6 +45,17 @@ public final class SelectionPosition {
                 || this.pos2 == null
                 || this.world == null
                 || this.pos1.getWorld() != this.pos2.getWorld();
+    }
+
+    public final String serialize() {
+        return "positions{"
+                + Utils.locationString(this.pos1) + ";"
+                + Utils.locationString(this.pos2) + "}";
+    }
+
+    public static void deserialize(final SelectionPosition position, final String[] data) {
+        position.setPosition(true, Utils.parseLocation(data[0]));
+        position.setPosition(false, Utils.parseLocation(data[1]));
     }
 
     public final World getWorld() {
