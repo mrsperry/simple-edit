@@ -5,8 +5,8 @@ import io.github.mrsperry.simpleedit.sessions.actions.Action;
 import java.util.Stack;
 
 public final class SelectionHistory {
-    final Stack<Action> undos;
-    final Stack<Action> redos;
+    private final Stack<Action> undos;
+    private final Stack<Action> redos;
 
     public SelectionHistory() {
         this.undos = new Stack<>();
@@ -17,25 +17,31 @@ public final class SelectionHistory {
         this.undos.add(action);
     }
 
-    public final boolean undo() {
-        if (this.undos.isEmpty()) {
-            return false;
-        }
-
-        final Action action = this.undos.pop();
-        action.undo();
-        this.redos.push(action);
-        return true;
+    public final boolean undo(int amount) {
+        return this.modify(this.undos, this.redos, true, amount);
     }
 
-    public final boolean redo() {
-        if (this.redos.isEmpty()) {
+    public final boolean redo(int amount) {
+        return this.modify(this.redos, this.undos, false, amount);
+    }
+
+    private boolean modify(final Stack<Action> out, final Stack<Action> in, final boolean undo, int amount) {
+        if (out.isEmpty()) {
             return false;
         }
 
-        final Action action = this.redos.pop();
-        action.redo();
-        this.undos.push(action);
+        do {
+            final Action action = out.pop();
+            if (undo) {
+                action.undo();
+            } else {
+                action.redo();
+            }
+
+            in.push(action);
+            amount--;
+        } while (!out.isEmpty() && amount > 0);
+
         return true;
     }
 }
