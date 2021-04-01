@@ -46,7 +46,7 @@ public final class OutlineCommand extends BaseCommand {
             player.sendMessage(ChatColor.LIGHT_PURPLE + "Selection outline " + (outline.toggle() ? ChatColor.GREEN + "enabled" : ChatColor.RED + "disabled"));
         } else {
             outline.setColor(color);
-            player.sendMessage(ChatColor.LIGHT_PURPLE + "Selection outline color set to " + args[1]);
+            player.sendMessage(ChatColor.LIGHT_PURPLE + "Selection outline color set to " + ColorTypes.colorToChatColor(color) + args[1]);
         }
     }
 
