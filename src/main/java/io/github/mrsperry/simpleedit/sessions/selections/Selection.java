@@ -24,10 +24,28 @@ public final class Selection {
 
     public static Selection deserialize(final String data) {
         final Selection selection = new Selection();
-        final String[] positions = data.split("\\|");
 
-        selection.position.setPosition(true, Utils.parseLocation(positions[0]));
-        selection.position.setPosition(false, Utils.parseLocation(positions[1]));
+        for (String part : data.split("},")) {
+            try {
+                final String type = part.split("\\{")[0];
+                final String contents = part.substring(type.length() + 1).replace("}", "");
+
+                switch (type) {
+                    case "positions":
+                        final String[] positions = contents.split(";");
+                        selection.position.setPosition(true, Utils.parseLocation(positions[0]));
+                        selection.position.setPosition(false, Utils.parseLocation(positions[1]));
+                        break;
+                    case "outline":
+                        if (contents.equals("enabled")) {
+                            selection.outline.toggle();
+                        }
+                        break;
+                }
+            } catch (final Exception ex) {
+                return null;
+            }
+        }
 
         return selection;
     }
@@ -122,7 +140,8 @@ public final class Selection {
     }
 
     public final String serialize() {
-        return Utils.locationString(this.position.getPos1()) + "|" + Utils.locationString(this.position.getPos2());
+        return "positions{" + Utils.locationString(this.position.getPos1()) + ";" + Utils.locationString(this.position.getPos2()) + "},"
+                + "outline{" + (this.outline.isDrawing() ? "enabled" : "disabled") + "}";
     }
 
     public final SelectionClipboard getClipboard() {

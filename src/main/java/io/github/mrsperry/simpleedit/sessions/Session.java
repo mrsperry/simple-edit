@@ -9,10 +9,15 @@ public final class Session {
         this.selection = new Selection();
     }
 
-    public static Session deserialize(final String[] data) {
+    public static Session deserialize(final String data) {
         final Session session = new Session();
-        session.setSelection(Selection.deserialize(data[0]));
 
+        final Selection selection = Selection.deserialize(data);
+        if (selection == null) {
+            return null;
+        }
+
+        session.setSelection(selection);
         return session;
     }
 

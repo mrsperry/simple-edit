@@ -67,4 +67,8 @@ public final class SelectionOutline {
             }
         }.runTaskTimer(SimpleEdit.getInstance(), 0, this.updateRate).getTaskId();
     }
+
+    public final boolean isDrawing() {
+        return this.isDrawing;
+    }
 }

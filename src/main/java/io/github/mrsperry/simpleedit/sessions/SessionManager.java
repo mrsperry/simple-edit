@@ -35,15 +35,30 @@ public final class SessionManager {
                         return;
                     }
 
-                    final String[] data;
+                    final String data;
                     try {
-                        data = Files.readString(file).split(";");
+                        data = Files.readString(file);
                     } catch (final IOException ex) {
                         logger.severe("Could not read session data of: " + name);
                         return;
                     }
 
-                    SessionManager.sessions.put(uuid, Session.deserialize(data));
+                    final Session session = Session.deserialize(data);
+                    if (session == null) {
+                        logger.severe("Deleting malformed session data: " + name);
+
+                        try {
+                            if (!file.toFile().delete()) {
+                                throw new Exception();
+                            }
+                        } catch (final Exception ex) {
+                            logger.severe("Could not delete malformed session file!");
+                        }
+
+                        return;
+                    }
+
+                    SessionManager.sessions.put(uuid, session);
                 });
             } catch (final IOException ex) {
                 logger.severe("An exception occurred while reading session data; some sessions may be lost!");
